@@ -18,3 +18,5 @@ $ npm install
 ```sh
 $ npm start
 ```
+
+Point browser to localhost:8000
