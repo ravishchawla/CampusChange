@@ -4,7 +4,7 @@
 
 #### Dependencies
 
-* nodejs
+* [Node.js](http://nodejs.org)
 
 #### Installation
 
@@ -19,4 +19,4 @@ $ npm install
 $ npm start
 ```
 
-Point browser to localhost:8000
+Point browser to [http://localhost:8000](http://localhost:8000)
