@@ -9,6 +9,6 @@
 	},
 	"scripts": {
 		"postinstall": "bower install",
-		"start": "http-server -a 0.0.0.0 -p 8000 app"
+		"start": "http-server -a 0.0.0.0 -p 8000 ./"
 	}
 }

@@ -1,0 +1,38 @@
+.splash {
+	background: url("/app/img/splash.jpg");
+    background-position: center; 
+	position: absolute;
+	height: 100%;
+	width: 100%;
+	color: white;
+}
+
+.form-signup {
+	max-width: 330px;
+	padding: 15px;
+	margin: 0 auto;
+}
+
+.square-bottom {
+	border-bottom-left-radius: 0;
+	border-bottom-right-radius: 0;
+}
+
+.square {
+	border-top-left-radius: 0;
+	border-top-right-radius: 0;
+	border-bottom-left-radius: 0;
+	border-bottom-right-radius: 0;
+}
+
+.round-bottom-left {
+	border-top-left-radius: 0;
+	border-top-right-radius: 0;
+	border-bottom-right-radius: 0;
+}
+
+.round-bottom-right {
+	border-top-left-radius: 0;
+	border-top-right-radius: 0;
+	border-bottom-left-radius: 0;
+}
