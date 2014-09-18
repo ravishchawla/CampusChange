@@ -1,5 +1,6 @@
 <?php
 include 'response.php';
+include 'AWSWrapper.php';
 class Request {
 
 	public static $request_type;
@@ -30,7 +31,7 @@ class Request {
 				self::handleDelete();
 				break;
 			default:
-				self::sendError400();
+				Response::sendError(400);
 		}
 
 	}
@@ -48,24 +49,26 @@ class Request {
 					self::querySendItems();
 					break;
 				default:
-					self::sendError400();
-			}
+					Response::sendError(400);
+		}
 
 		}
 
 		else {
-			self::sendError400();
+			Response::sendError(400);
 		}
 
 	}
 
-	public function sendError400(){
-		$response = Response::createResponse(400);
-		echo $response;
-	}
-
 	public function querySendUsers() {
-		$users = array('Person a', 'Person b', 'Person c', 'Person d', 'Person e');
+		$users = AWSWrapper::scanAllUsers();
+		if(isset($users)) {
+			echo json_encode($users);
+		}
+		else {
+			Response::sendError(204);
+		}
+
 		echo json_encode($users);
 	}
 
