@@ -9,7 +9,6 @@
 #### Installation
 
 ```sh
-$ git clone git@github.com:tylerwbell/TBD-GTThriftShop.git
 $ npm install -g gulp bower
 $ npm install
 $ bower install
