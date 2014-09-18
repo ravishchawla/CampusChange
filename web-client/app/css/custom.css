@@ -1,5 +1,9 @@
+body {
+	font-family: Verdana, Geneva, sans-serif;
+}
+
 .splash {
-	background: url("/app/img/splash.jpg");
+	background: url("/img/splash.jpg");
     background-position: center; 
 	position: absolute;
 	height: 100%;
@@ -10,7 +14,21 @@
 .form-signup {
 	max-width: 330px;
 	padding: 15px;
-	margin: 0 auto;
+	margin: 10vh auto;
+	color: black;
+	background-color: white;
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+	border-bottom-left-radius: 5px;
+	border-bottom-right-radius: 5px;
+}
+
+.form-signup h1, .form-signup h4 {
+	text-align: center;
+}
+
+.form-submit {
+	padding-top: 10px;
 }
 
 .square-bottom {
@@ -18,21 +36,22 @@
 	border-bottom-right-radius: 0;
 }
 
-.square {
+.square-top {
 	border-top-left-radius: 0;
 	border-top-right-radius: 0;
-	border-bottom-left-radius: 0;
+}
+
+.square-right {
+	border-top-right-radius: 0;
 	border-bottom-right-radius: 0;
 }
 
-.round-bottom-left {
+.square-left {
 	border-top-left-radius: 0;
-	border-top-right-radius: 0;
-	border-bottom-right-radius: 0;
+	border-bottom-left-radius: 0;
 }
 
-.round-bottom-right {
-	border-top-left-radius: 0;
-	border-top-right-radius: 0;
-	border-bottom-left-radius: 0;
+.footer {
+	color: grey;
+	text-align: center;
 }

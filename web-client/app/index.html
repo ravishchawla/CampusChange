@@ -3,28 +3,38 @@
     <head>
         <title>GT Thrift Shop</title>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
-		<link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.css">
-		<link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap-theme.css">
-		<link rel="stylesheet" href="/app/css/custom.css">
+		
+		<link rel="stylesheet" href="bower/bootstrap/dist/css/bootstrap.css">
+		<link rel="stylesheet" href="bower/bootstrap/dist/css/bootstrap-theme.css">
+		<link rel="stylesheet" href="css/custom.css">
     </head>
     <body>
 		<div class="splash">
     		<div class="container">
-				<div class="header">
-					<h1>GT Thrift Shop</h1>
-				</div>
-				<div class="row">
-					<form class="form-signup" role="form">
+				<form class="form-signup" role="form">
+					<div>
+						<h1 class="col-12-xs">GT Thrift Shop</h1>
+					</div>
+					<div>
+						<h4>Sign in</h4>
+					</div>
+					<div>
 						<input type="email" class="form-control square-bottom" placeholder="Email" required autofocus>
-						<input type="password" class="form-control square" placeholder="Password" required>
-						<button type="button" class="col-xs-6 btn btn-lg btn-primary round-bottom-left">Sign Up</button>
-						<button type="button" class="col-xs-6 btn btn-lg btn-primary round-bottom-right">Sign in</button>
+					</div>
+					<div>
+						<input type="password" class="form-control square-top" placeholder="Password" required>
+					</div>
+					<div class="form-submit">
+						<button type="button" class="col-xs-6 btn btn-lg btn-primary square-right">Sign Up</button>
+						<button type="button" class="col-xs-6 btn btn-lg btn-primary square-left">Sign in</button>
+					</div>
+					<a href="app.html">
 						<button type="button" class="col-xs-12 btn btn-lg btn-link">Forgot password?</button>
-					</form>			
-				</div>	
-				<div class="footer">
-					Fine print, terms and about links here.
-				</div>
+					</a>
+					<div class="footer">
+						Copyright &copy; 2014 Team TBD
+					</div>
+				</form>			
 			</div>
 		</div>
     </body>
