@@ -4,7 +4,7 @@ ThriftShopApp.config(['$routeProvider',
   function($routeProvider) {
     $routeProvider.
       when('/categories', {
-        templateUrl: 'categories.html'
+        templateUrl: 'partials/categories.html'
       }).
       when('/phones/:phoneId', {
         templateUrl: 'partials/phone-detail.html',
