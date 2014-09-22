@@ -2,8 +2,44 @@
 <html>
 <head>
 	<title>GT Thrift Shop</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+	<link rel="stylesheet" href="bower/bootstrap/dist/css/bootstrap.css">
+	<link rel="stylesheet" href="bower/bootstrap/dist/css/bootstrap-theme.css">
+	<link rel="stylesheet" href="css/style.css">
 </head>
-<body>
-	Test
+<body  ng-app="ThriftShopApp">
+	<div class="container-fluid" id="wrapper">
+		<div class="row" id="header1">
+			<div class="text-center text-nowrap"><H1>GT Thrift Shop</H1></div>
+		</div>
+		<div class="row" id="header">
+			<div class="col-sm-3 col-md-2 col-lg-3"></div>
+			<div class="col-xs-12 col-sm-6 col-md-8 col-lg-6">
+				<input type="search" class="form-control" placeholder="Search">
+			</div>
+		</div>
+	</div>
+
+	<div ng-view></div>
+
+	<div class="container-fluid" id="wrapper">
+		<div class="row"id="footer">
+			<div class="btn-group btn-group-justified">
+				<div class="btn-group">
+					<a href="#/categories" class="btn btn-default" role="button">Categories</a>
+				</div>
+				<div class="btn-group">
+					<a href="#/favorites" class="btn btn-default" role="button">Favorites</a>
+				</div>
+				<div class="btn-group">
+					<a href="#/messages" class="btn btn-default" role="button">Messages</a>
+				</div>
+			</div>
+		</div>  	
+	</div>
+	<script src="bower/angular/angular.js"></script>
+	<script src="bower/angular-route/angular-route.js"></script>
+	<script src="script/app.js"></script>
 </body>
 </html>

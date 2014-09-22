@@ -55,3 +55,35 @@ body {
 	color: grey;
 	text-align: center;
 }
+
+html,
+body {
+margin:0;
+padding:0;
+height:100%;
+}
+#wrapper {
+min-height:100%;
+position:relative;
+}
+#header {
+padding:2px;
+background:#f1cc21;
+padding-top: 0px;
+}
+#header1 {
+padding:2px;
+padding-top: 12px;
+padding-bottom: 2px;
+background:#f1cc21;
+}
+#content {
+padding:0px;
+padding-bottom:2px; /* Height of the footer element */
+}
+#footer {
+height:1px;
+position:absolute;
+bottom:0;
+left:0;
+}
