@@ -6,12 +6,10 @@ ThriftShopApp.config(['$routeProvider',
       when('/categories', {
         templateUrl: 'partials/categories.html'
       }).
-      when('/phones/:phoneId', {
-        templateUrl: 'partials/phone-detail.html',
-        controller: 'PhoneDetailCtrl'
+      when('/signin', {
+		  templateUrl: 'partials/signin.html'
       }).
       otherwise({
-        redirectTo: '/home'
-        
+        redirectTo: '/signin'
       });
   }]);
