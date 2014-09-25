@@ -56,39 +56,65 @@ body {
 	text-align: center;
 }
 
-.tab-bar {
-	position: fixed;
-	left: 0;
-	right: 0;
-	width: 100%;
-	bottom: 0;
+.header {
+	position: relative;
+	background:#f1cc21;
+	height: 64px;
 }
 
-html,
-body {
-margin:0;
-padding:0;
-height:100%;
+.back-button {
+	display: inline-block;
+	position: absolute;
+	top: 0;
+	left: 0;
+	background: url('/img/arrow.png') no-repeat;
+	background-size: cover; 
+	width: 44px; 
+	height: 44px;
+	border:0;
+	margin: 10px 10px;
 }
+
+.title {
+	width: 100%;
+	text-align: center;
+}
+
+.search-button {
+	display: inline-block;
+	position: absolute;
+	top: 0;
+	right: 0;
+	background: url('/img/search.png') no-repeat;
+	background-size: cover; 
+	width: 44px; 
+	height: 44px;
+	border:0;
+	margin: 10px 10px;
+}
+
+.toolbar {
+	
+}
+
 #wrapper {
 min-height:100%;
 position:relative;
 }
-#header {
-padding:2px;
-background:#f1cc21;
-padding-top: 0px;
-}
+
+
 #header1 {
 padding:2px;
 padding-top: 12px;
 padding-bottom: 2px;
 background:#f1cc21;
 }
+
 #content {
 padding:0px;
 padding-bottom:2px; /* Height of the footer element */
 }
+
 #footer {
 height:1px;
 position:absolute;
