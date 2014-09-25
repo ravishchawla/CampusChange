@@ -1,6 +1,7 @@
 <?php
 include 'response.php';
 include 'AWSWrapper.php';
+include 'Utility.php';
 class Request {
 
 	public static $request_type;
@@ -10,6 +11,7 @@ class Request {
 	public static $list;
 
 	public function init() {
+		//AWSWrapper::putUser();
 		self::$uri = $_SERVER['REQUEST_URI'];
 		self::$request_type = $_SERVER['REQUEST_METHOD'];
 		self::handleRequest();
@@ -38,20 +40,24 @@ class Request {
 
 	public function handleGet() {
 
-		if(isset($_GET['list'])) {
+		if(isset($_GET['list']) && isset($_GET['id'])) {
 			self::$list = $_GET['list'];
-			
+			$authToken = $_GET['id'];
+
 			switch(self::$list) {
 				case 'users':
-					self::querySendUsers();
+					Response::querySendUsers($authToken);
 					break;
 				case 'items':
 					self::querySendItems();
 					break;
 				default:
 					Response::sendError(400);
+			}
 		}
 
+		else if(isset($_GET['auth'])) {
+			Response::authenticate();
 		}
 
 		else {
@@ -60,26 +66,26 @@ class Request {
 
 	}
 
-	public function querySendUsers() {
-		$users = AWSWrapper::scanAllUsers();
-		if(isset($users)) {
-			echo json_encode($users);
-		}
-		else {
-			Response::sendError(204);
+
+	public function handlePost() {
+
+		if(isset($_GET['id']) && isset($_GET['user']) && isset($_GET['email']) && isset($_GET['passwd'])) {
+			$firstName = isset($_GET['fname']) ? $_GET['fname'] : null;
+			$lastName = isset($_GET['lname']) ? $_GET['lname'] : null;
+
+			Response::putUser($_GET['id'], $_GET['user'], $_GET['email'], $_GET['passwd'], $firstName, $lastName);
 		}
 
-		echo json_encode($users);
+
 	}
+
+
+	
 
 	public function querySendItems() {
 
 	}
 
-
-	public function handlePost() {
-
-	}
 
 	public function handlePut() {
 

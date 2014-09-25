@@ -11,7 +11,9 @@ define('ITEMS', 'items');
 use Aws\S3\S3Client;
 use Aws\Ec2\Ec2Client;
 use Aws\DynamoDb\DynamoDbClient;
+use Aws\DynamoDb\Enum\Type;
 use Aws\Common\Credentials\Credentials;
+use Aws\DynamoDb\Enum\ComparisonOperator;
 
 class AWSWrapper {
 
@@ -23,13 +25,51 @@ class AWSWrapper {
 	static $profile;
 	static $credentials = array('profile' => PROFILE, 'region' => REGION);
 
-	public function scanAllUsers() {
-		
+	public function scanAllUsers($authToken) {
+		$accountValidation = self::validateToken($authToken);
+		if($accountValidation === False) {
+			echo Response::sendError(401);
+			return;
+		}
 		self::authenticateDDB();
 		$response = self::$ddbClient->scan(array("TableName" => USERS));
+		
 		return $response;
 
 		
+	}
+
+	public function putUser($token, $username, $email, $password, $firstName = "", $lastName = "") {
+		
+		$accountValidation = self::validateToken($token);
+		if($accountValidation === False) {
+			echo Response::sendError(401);
+			return;
+		}
+
+		self::authenticateDDB();
+		$uuid = Utility::createV5Uid($username);
+		$encryptedPassword = Utility::encrypt($password);
+
+		$item = array(
+					"user_id" => array(Type::STRING => $uuid),
+					"user_name" => array(Type::STRING => $username),
+					"password" => array(Type::STRING => $encryptedPassword),
+					"email" => array(Type::STRING => $email));
+
+		if(!is_null($firstName)) {
+			$item['firstName'] = array(Type::STRING => $firstName);
+		}
+		
+		if(!is_null($lastName)) {
+			$item['lastName'] = array(Type::STRING => $lastName);
+		}			
+
+		$response = self::$ddbClient->putItem(array("TableName" => USERS, "Item" => $item,
+												)
+											);
+
+		return $response;
 	}
 
 	private function authenticateS3() {
@@ -67,6 +107,69 @@ class AWSWrapper {
 		authenticateEC2();
 		authenticateDDB();
 		return;
+	}
+
+	public function authenticateClient($ip_addr) {
+		self::authenticateDDB();
+		$storedTokens = self::getClientToken($ip_addr);
+
+		if($storedTokens['Count'] !== 0) {
+			return $storedTokens['Items'][0]['client_token']['S'];
+		}
+
+		$uuid = Utility::createV4Uid();
+		$respone = self::$ddbClient->putItem(array(
+						"TableName" => "tokens", 
+						"Item" => array(
+							"client_ip" => array(Type::STRING => $ip_addr),
+							"client_token" => array(Type::STRING => $uuid),
+						)
+					)
+		);
+
+		return $uuid;
+	}
+
+	private function getClientToken($ip_addr) {
+		self::authenticateDDB();
+		$response = self::$ddbClient->query(array(
+						"TableName" => "tokens",
+						"KeyConditions" => array(
+							"client_ip" => array(
+								"ComparisonOperator" => ComparisonOperator::EQ,
+								"AttributeValueList" => array(
+									array(Type::STRING => $ip_addr)
+								)
+							)
+						)
+		));
+
+		return $response;
+
+	}
+
+	private function validateToken($client_token) {
+		self::authenticateDDB();
+		$response = self::$ddbClient->query(array(
+							'TableName' => "tokens",
+							'IndexName' => "client_token-index",
+							"KeyConditions" => array(
+								"client_token" => array(
+									"ComparisonOperator" => ComparisonOperator::EQ,
+									"AttributeValueList" => array(
+										array(Type::STRING => $client_token)
+									)
+								)
+							)
+						)
+		);
+
+		if($response['Count'] != 0) {
+			return True;
+		}
+
+		else return False;
+
 	}
 
 	private function createProfile() {
