@@ -38,6 +38,7 @@ class Request {
 
 	}
 
+	//TODO: fix how url params are handled. very bad way done in which it is now. 
 	public function handleGet() {
 
 		if(isset($_GET['list']) && isset($_GET['id'])) {
@@ -56,8 +57,23 @@ class Request {
 			}
 		}
 
-		else if(isset($_GET['auth'])) {
-			Response::authenticate();
+		else if(isset($_GET['auth']) && isset($_GET['passwd'])) {
+			Response::authenticate($_GET['auth'], $_GET['passwd']);
+		}
+
+		else if (isset($_GET['user']) && isset($_GET['oldpasswd']) && isset($_GET['newpasswd']) && isset($_GET['id']))
+		{
+			
+			Response::changePassword($_GET['id'], $_GET['user'], $_GET['oldpasswd'], $_GET['newpasswd']);
+		}
+
+		else if(isset($_GET['user']) && isset($_GET['id'])) {
+			Response::queryGetUser($_GET['user'], $_GET['id']);
+		}
+
+		else if (isset($_GET['delete']) && isset($_GET['passwd']) && isset($_GET['id']))
+		{
+			Response::deleteUser($_GET['delete'], $_GET['passwd'], $_GET['id']);
 		}
 
 		else {
@@ -66,16 +82,15 @@ class Request {
 
 	}
 
-
 	public function handlePost() {
 
-		if(isset($_GET['id']) && isset($_GET['user']) && isset($_GET['email']) && isset($_GET['passwd'])) {
-			$firstName = isset($_GET['fname']) ? $_GET['fname'] : null;
-			$lastName = isset($_GET['lname']) ? $_GET['lname'] : null;
+		if(isset($_POST['id']) && isset($_POST['user']) && isset($_POST['email']) && isset($_POST['passwd'])) {
+			$firstName = isset($_POST['fname']) ? $_POST['fname'] : null;
+			$lastName = isset($_POST['lname']) ? $_POST['lname'] : null;
 
-			Response::putUser($_GET['id'], $_GET['user'], $_GET['email'], $_GET['passwd'], $firstName, $lastName);
+
+			Response::putUser($_POST['id'], $_POST['user'], $_POST['email'], $_POST['passwd'], $firstName, $lastName);
 		}
-
 
 	}
 

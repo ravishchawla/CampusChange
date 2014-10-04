@@ -8,6 +8,7 @@ class Utility {
 		$salt = self::createBlowfishSalt();
 		$encryptedText = crypt($plaintext, $salt);
 
+		echo 'password: ' . $encryptedText . ' .-. ' . crypt($plaintext, $encryptedText);
 		return $encryptedText;
 	}
 
@@ -23,9 +24,16 @@ class Utility {
 
 		$salt = sprintf('$2a$%02d$', $rounds) . $salt;
 		return $salt;
-
 	}
 
+	public function verifyPassword($password, $passwordHash) {
+
+	//	echo 'comparing : ' . crypt($password, $passwordHash) . ' /\/\/\ ' . $passwordHash;
+		if(crypt($password, $passwordHash) == $passwordHash) {
+			return true;
+		}
+		else return false;
+	}
 
 	public function createV4Uid() {
 		//obtained at http://php.net/manual/en/function.uniqid.php
@@ -37,7 +45,7 @@ class Utility {
 	      mt_rand(0, 0xffff), mt_rand(0, 0xffff), mt_rand(0, 0xffff)
 	    );
    }
-
+   
    public function createV5Uid($name, $namespace = USERSPACE) {
 		//obtained at http://php.net/manual/en/function.uniqid.php
 

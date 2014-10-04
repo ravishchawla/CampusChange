@@ -24,11 +24,9 @@ class Response {
 		}
 	}
 
-	public function authenticate() {
-		$user_ip = $_SERVER['REMOTE_ADDR'];
-
-		$uuid = AWSWrapper::authenticateClient($user_ip);
-		echo $uuid;
+	public function authenticate($user_id, $password) {
+		$uuid = AWSWrapper::authenticateClient($user_id, $password);
+		echo $uuid['S'];
 	}
 
 	
@@ -36,13 +34,32 @@ class Response {
 	public function querySendUsers($authToken) {
 		$users = AWSWrapper::scanAllUsers($authToken);
 		if(isset($users)) {
-			echo json_encode($users->toArray());
+			echo json_encode($users->toArray(), JSON_PRETTY_PRINT);
 		}
 
 	}
 
+	public function queryGetUser($user, $token) {
+		$user = AWSWrapper::getUserDetails($user, $token);
+		if(isset($user)) {
+			echo json_encode($user->toArray(), JSON_PRETTY_PRINT);
+		}
+	}
+
 	public function putUser($token, $username, $email, $password, $firstName, $lastName) {
-		AWSWrapper::putUser($token, $username, $email, $password, $firstName, $lastName);
+		AWSWrapper::putUser($username, $email, $password, $firstName, $lastName);
+	}
+
+	public function deleteUser($user, $password, $token) {
+		$response = AWSWrapper::deleteUser($user, $password, $token);
+		echo var_export($response, true);
+	}
+
+	public function changePassword($token, $user, $oldpassword, $newpassword) {
+		
+		$response = AWSWrapper::changePassword($token, $user, $oldpassword, $newpassword);
+		if(isset($response))
+				echo var_export($response, true);
 	}
 
 }
