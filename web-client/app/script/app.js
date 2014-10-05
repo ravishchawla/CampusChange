@@ -108,6 +108,10 @@ app.config(function($stateProvider, $urlRouterProvider) {
 		templateUrl: 'partials/main.results.html',
 		controller: 'ResultsController'
 	})
+	.state('main.listing', {
+		url: '/listing',
+		templateUrl: 'partials/main.listing.html'
+	})
 	.state('main.categories', {
 		url: "/categories",
 		templateUrl: 'partials/main.categories.html',
