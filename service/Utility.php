@@ -7,8 +7,7 @@ class Utility {
 	public function encrypt($plaintext) {
 		$salt = self::createBlowfishSalt();
 		$encryptedText = crypt($plaintext, $salt);
-
-		echo 'password: ' . $encryptedText . ' .-. ' . crypt($plaintext, $encryptedText);
+		
 		return $encryptedText;
 	}
 

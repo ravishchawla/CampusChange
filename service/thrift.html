@@ -1,15 +1,17 @@
 <html>
 <body>
 <h2>Login user</h2>
+<!--GET thrift.php?action=auth&user=abc&passwd=123-->
 <form action="thrift.php" method="get">
 <input type="hidden" name="action" value="auth"><br>
  User: <input type="text" name="user"><br>
- Password: <input type="text" name="passwd"><br>
+ Password: <input te="text" name="passwd"><br>
  <input type="submit">
  </form>
 
 
 <h2>Insert new user</h2>
+<!--POST thrift.php?action=insert&user=abc&email=def&passwd=123-->
 <form action="thrift.php" method="post">
 <input type="hidden" name="action" value="insert"><br>
 User: <input type="text" name="user"><br>
@@ -19,50 +21,67 @@ Password: <input type="password" name="passwd"><br>
 </form>
 
 <h2>Get List of all user</h2>
+<!--GET thrift.php?action=list_users&token=123-->
 <form action="thrift.php" method="get">
 <input type="hidden" name="action" value="list_users"><br>
-Token: <input type="text" name="id"><br>
+Token: <input type="text" name="token"><br>
 <input type="submit">
 </form>
 
 <h2>Get User details</h2>
+<!--GET thrift.php?action=get&token=123&user=abc-->
 <form action="thrift.php" method="get">
 <input type="hidden" name="action" value="get"><br>
-Token: <input type="text" name="id"><br>
+Token: <input type="text" name="token"><br>
 User: <input type="text" name="user"><br>
 <input type="submit">
 </form>
 
 <H2>Delete User</h2>
+<!--GET thrift.php?action=delete&user=abc&passwd=123&token=456-->
 <form action="thrift.php" method="get">
 <input type="hidden" name="action" value="delete"><br>
-User: <input type="text" name="delete"><br>
+User: <input type="text" name="user"><br>
 Password: <input type="password" name="passwd"><br>
-Token: <input type="text" name="id"><br>
+Token: <input type="text" name="token"><br>
 <input type="submit">
 </form>
 
 <h2>Change Password</h2>
+<!--GET thrift.php?action=changePasswd&token=123&user=abc&oldpasswd=456&newpasswd=789-->
 <form action="thrift.php" method="get">
 <input type="hidden" name="action" value="changePasswd"><br>
-Token: <input type="text" name="id"><br>
+Token: <input type="text" name="token"><br>
 User: <input type="text" name="user"><br>
 Old password: <input type="text" name="oldpasswd"><br>
 New Password: <input type="text" name="newpasswd"><br>
 <input type="submit">
 </form>
 
+<h2>Insert item</h2>
+<!--POST thrift.php?action=insert&item=abc&poster=def&date=123&price=456-->
+<form action="thrift.php" method="post">
+<input type="hidden" name="action" value="insert"><br>
+Item: <input type="text" name="item"><br>
+Poster: <input type="text" name="poster"><br>
+Date: <input type="text" name="date"><br>
+Price: <input type="text" name="price"><br>
+<input type="submit">
+</form>
+
 <h2>List of all items</h2>
+<!--GET thrift.php?action=list_items&token=123-->
 <form action="thrift.php" method="get">
 <input type="hidden" name="action" value="list_items"><br>
-Token: <input type="text" name="id"><br>
+Token: <input type="text" name="token"><br>
 <input type="submit">
 </form>
 
 <h2>Get Item details<h2>
+<!--GET thrift.php?action=get&token=123&item=abc-->
 <form action="thrift.php" method="get">
 <input type="hidden" name="action" value="get"><br>
-Token: <input type="text" name="id"><br>
+Token: <input type="text" name="token"><br>
 Item: <input type="text" name="item"><br>
 <input type="submit">
 </form>

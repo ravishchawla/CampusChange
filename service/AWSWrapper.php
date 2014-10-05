@@ -89,16 +89,18 @@ class AWSWrapper {
 	public function putItem($item_name, $item_poster, $item_date, $item_price) {
 
 		self::authenticateDDB();
-		$uuid = Utility::createV5Uid($username);
-		$encryptedPassword = Utility::encrypt($password);
+
+		$uuid = Utility::createV5Uid($item_name);
 
 		$item = array(
+					"item_id" => array(Type::STRING => $uuid),
 					"item_name" => array(Type::STRING => $item_name),
 					"item_poster" => array(Type::STRING => $item_poster),
 					"item_date" => array(Type::STRING => $item_date),
 					"item_price" => array(Type::STRING => $item_price));
 
-		$response = self::$ddbClient->putItem(array("TableName" => "item", "Item" => $item,
+		echo 'one';
+		$response = self::$ddbClient->putItem(array("TableName" => "items", "Item" => $item,
 												)
 											);
 
@@ -156,7 +158,7 @@ class AWSWrapper {
 		if($storedTokens['Count'] !== 0) {
 			$details = $storedTokens['Items'][0];
 			if(array_key_exists('client_token', $details))
-				return $details['client_token'];
+				return $details['client_token']['S'];
 		
 
 			$user_id = $details['user_id']['S'];
@@ -179,6 +181,7 @@ class AWSWrapper {
 
 		}
 
+		
 		return $uuid['S'];
 	}
 
@@ -262,7 +265,7 @@ class AWSWrapper {
 	private function getItems($item, $attributes) {
 		$response = self::$ddbClient->query(array(
 										'TableName' => "items",
-										'IndexName' => 'item_name-index',
+										'IndexName' => 'item_name-item_poster-index',
 										"KeyConditions" => array(
 												"item_name" => array(
 													"ComparisonOperator" => ComparisonOperator::EQ,
@@ -286,7 +289,7 @@ class AWSWrapper {
 		}
 
 		$attributes = array("item_name", "item_poster", "item_date");
-		$response = self::getItem($item, $attributes);
+		$response = self::getItems($item, $attributes);
 
 		if($response['Count'] == 0) {
 			echo Response::sendError(404);
