@@ -41,9 +41,12 @@ class Request {
 	//TODO: fix how url params are handled. very bad way done in which it is now. 
 	public function handleGet() {
 
-		if(isset($_GET['action']) && isset($_GET['token'])) {
+		if(isset($_GET['action'])) {
+
 			$action = $_GET['action'];
-			$authToken = $_GET['token'];
+			if(isset($_GET['token'])) {
+				$authToken = $_GET['token'];
+			}
 
 			switch($action) {
 				case 'list_users':
@@ -103,7 +106,8 @@ class Request {
 						$lastName = isset($_POST['lname']) ? $_POST['lname'] : null;
 
 						Response::putUser($_POST['user'], $_POST['email'], $_POST['passwd'], $firstName, $lastName);
-					
+					}
+
 					else if(isset($_POST['item']) && isset($_POST['poster']) && isset($_POST['date'])) {
 
 						Response::putItem($_POST['item'], $_POST['poster'], $_POST['date']);
@@ -122,8 +126,6 @@ class Request {
 
 		
 		}
-
-	}
 
 
 	
