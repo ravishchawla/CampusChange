@@ -1,0 +1,140 @@
+body {
+	font-family: Verdana, Geneva, sans-serif;
+}
+
+.splash {
+	background: url("/img/splash.jpg");
+    background-position: center; 
+	position: absolute;
+	height: 100%;
+	width: 100%;
+	color: white;
+}
+
+.form-signup {
+	max-width: 330px;
+	padding: 15px;
+	margin: 10vh auto;
+	color: black;
+	background-color: white;
+	border-top-left-radius: 5px;
+	border-top-right-radius: 5px;
+	border-bottom-left-radius: 5px;
+	border-bottom-right-radius: 5px;
+}
+
+.form-signup h1, .form-signup h4 {
+	text-align: center;
+}
+
+.form-submit {
+	padding-top: 10px;
+}
+
+.square-bottom {
+	border-bottom-left-radius: 0;
+	border-bottom-right-radius: 0;
+}
+
+.square-top {
+	border-top-left-radius: 0;
+	border-top-right-radius: 0;
+}
+
+.square-right {
+	border-top-right-radius: 0;
+	border-bottom-right-radius: 0;
+}
+
+.square-left {
+	border-top-left-radius: 0;
+	border-bottom-left-radius: 0;
+}
+
+.footer {
+	color: grey;
+	text-align: center;
+}
+
+.header {
+	position: relative;
+	background:#f1cc21;
+	height: 64px;
+}
+
+.back-button {
+	display: inline-block;
+	position: absolute;
+	top: 0;
+	left: 0;
+	background: url('/img/arrow.png') no-repeat;
+	background-size: cover; 
+	width: 44px; 
+	height: 44px;
+	border:0;
+	margin: 10px 10px;
+}
+
+.title {
+	position: absolute;
+	top: 0;
+	left: 64px;
+	right: 128px;
+	margin: 12px 0;
+	text-align: center;
+}
+
+.post-button {
+	display: inline-block;
+	position: absolute;
+	top: 0;
+	right: 64px;
+	background: url('/img/plus.png') no-repeat;
+	background-size: cover; 
+	width: 30px; 
+	height: 30px;
+	border:0;
+	margin: 17px 17px;
+}
+
+.search-button {
+	display: inline-block;
+	position: absolute;
+	top: 0;
+	right: 0;
+	background: url('/img/search.png') no-repeat;
+	background-size: cover; 
+	width: 44px; 
+	height: 44px;
+	border:0;
+	margin: 10px 10px;
+}
+
+.toolbar {
+	
+}
+
+#wrapper {
+min-height:100%;
+position:relative;
+}
+
+
+#header1 {
+padding:2px;
+padding-top: 12px;
+padding-bottom: 2px;
+background:#f1cc21;
+}
+
+#content {
+padding:0px;
+padding-bottom:2px; /* Height of the footer element */
+}
+
+#footer {
+height:1px;
+position:absolute;
+bottom:0;
+left:0;
+}

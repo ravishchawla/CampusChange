@@ -1,0 +1,28 @@
+<div class="btn-group btn-group-justified">
+	<div class="btn-group">
+		<a class="btn btn-default" role="button"> $&#9660; </a>
+	</div>
+	<div class="btn-group">
+		<a class="btn btn-default" role="button"> $&#9650;</a>
+	</div>
+	<div class="btn-group">
+		<a class="btn btn-default" role="button"> Oldest </a>
+	</div>
+	<div class="btn-group">
+		<a class="btn btn-default" role="button"> Newest </a>
+	</div>
+</div>
+
+<div ng-repeat="item in items">
+	<div class="col-xs-12 col-md-3" style="margin: 5px; background-color: #EEEEEE;">
+		<div class="col-xs-4" style="display: inline-block;">
+			<img src="/img/splash.jpg" style="background-size: cover; width: 100%;"></img>
+		</div>
+		<div class="col-xs-8">
+			<div style="font-weight: bold">{{item.name}}</div>
+			<div>{{item.summary}}</div>
+		</div>
+	</div>
+</div>
+	
+<div ui-view></div>
