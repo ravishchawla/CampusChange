@@ -1,41 +1,79 @@
-var ThriftShopApp = angular.module('ThriftShopApp', ['ui.router']);
+var app = angular.module('ThriftShopApp', ['ui.router']);
 
-ThriftShopApp.controller('ItemCtrl', function ($scope) {
-  $scope.items = [
-    {'name': 'Nexus S',
-     'summary': 'Fast just got faster with Nexus S.'},
-    {'name': 'Motorola XOOM™ with Wi-Fi',
-     'summary': 'The Next, Next Generation tablet.'},
-    {'name': 'MOTOROLA XOOM™',
-     'summary': 'The Next, Next Generation tablet.'},
-     {'name': 'Nexus S',
-      'summary': 'Fast just got faster with Nexus S.'},
-     {'name': 'Motorola XOOM™ with Wi-Fi',
-      'summary': 'The Next, Next Generation tablet.'},
-     {'name': 'MOTOROLA XOOM™',
-      'summary': 'The Next, Next Generation tablet.'},
-      {'name': 'Nexus S',
-       'summary': 'Fast just got faster with Nexus S.'},
-      {'name': 'Motorola XOOM™ with Wi-Fi',
-       'summary': 'The Next, Next Generation tablet.'},
-      {'name': 'MOTOROLA XOOM™',
-       'summary': 'The Next, Next Generation tablet.'},
-       {'name': 'Nexus S',
-        'summary': 'Fast just got faster with Nexus S.'},
-       {'name': 'Motorola XOOM™ with Wi-Fi',
-        'summary': 'The Next, Next Generation tablet.'},
-       {'name': 'MOTOROLA XOOM™',
-        'summary': 'The Next, Next Generation tablet.'},
-	    {'name': 'Nexus S',
-	     'summary': 'Fast just got faster with Nexus S.'},
-	    {'name': 'Motorola XOOM™ with Wi-Fi',
-	     'summary': 'The Next, Next Generation tablet.'},
-	    {'name': 'MOTOROLA XOOM™',
-	     'summary': 'The Next, Next Generation tablet.'},
-  ];
+app.controller('MainController', function ($scope) {
+	
 });
 
-ThriftShopApp.config(function($stateProvider, $urlRouterProvider) {
+app.controller('ResultsController', function ($scope, client) {
+	
+});
+
+app.controller('SignInController', function ($scope, $state, model, client) {	
+	function validateForm() {
+		if (!$scope.email || !$scope.password) {
+			alert('Please enter your username and password.');
+			return false;
+		} else if (!/\S+@gatech.edu/.test($scope.email)) {
+			alert('A Georgia Tech email is required');
+			return false;
+		}
+		
+		return true;
+	};
+	
+	$scope.signUp = function () {
+		if (!validateForm()) return;
+		
+		alert('sign up: not implemented');
+	};
+	
+	$scope.signIn = function() {
+		if (!validateForm()) return;
+		
+		var auth = client.signIn($scope.email, $scope.password);
+		auth.then(function (token) {
+			model.signIn($scope.email, token);
+			$state.go('main.categories');
+		}, function (error) {
+			alert('Invalid Username/Password');
+		});
+	};
+	
+	$scope.forgotPassword = function () {
+		if (!$scope.email) {
+			alert('Please enter your email.');
+			return false;
+		} else if (!/\S+@gatech.edu/.test($scope.email)) {
+			alert('A Georgia Tech email is required');
+			return false;
+		}
+		
+		alert('forgot password: not implemented');
+	}
+});
+
+app.factory('model', function() {
+	var user = {
+		email: null,
+		token: null,
+	};
+	
+	return {
+		isAuthenticated: function () {
+			return (user.token != null);
+		},
+		signIn: function(email, token) {
+			user.email = email;
+			user.token = token;
+		},
+		signOut: function() {
+			user.username = null;
+			user.token = null;
+		}
+	};
+});
+
+app.config(function($stateProvider, $urlRouterProvider) {
 	$urlRouterProvider.otherwise("/signin");
 	
 	$stateProvider
@@ -63,5 +101,16 @@ ThriftShopApp.config(function($stateProvider, $urlRouterProvider) {
 	.state('main.post', {
 		url: "/post",
 		templateUrl: 'partials/main.post.html',
+	});
+});
+
+app.run(function($rootScope, $state, model) {
+	$rootScope.$on('$stateChangeStart', function(event, toState, toStateParameters) {
+		$rootScope.toState = toState;
+		$rootScope.toStateParameters = toStateParameters;
+		
+		if (toState.name !== 'signin' && !model.isAuthenticated()) {
+			$state.go('signin');
+		}
 	});
 });

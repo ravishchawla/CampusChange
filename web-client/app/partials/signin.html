@@ -1,5 +1,5 @@
 <div class="splash">
-   	<div class="container">
+   	<div ng-controller="SignInController" class="container">
 		<form class="form-signup" role="form">
 			<div>
 				<h1 class="col-12-xs">GT Thrift Shop</h1>
@@ -8,17 +8,17 @@
 				<h4>Sign in</h4>
 			</div>
 			<div>
-				<input type="email" class="form-control square-bottom" placeholder="Email" required autofocus>
+				<input ng-model="email" type="email" class="form-control square-bottom" placeholder="Email" required autofocus>
 			</div>
 			<div>
-				<input type="password" class="form-control square-top" placeholder="Password" required>
+				<input ng-model="password" type="password" class="form-control square-top" placeholder="Password" required>
 			</div>
 			<div class="form-submit">
-				<button ui-sref="main.categories" type="button" class="col-xs-6 btn btn-lg btn-primary square-right">Sign Up</button>
-				<button ui-sref="main.categories" type="button" class="col-xs-6 btn btn-lg btn-primary square-left">Sign in</button>
+				<button ng-click="signUp()" type="button" class="col-xs-6 btn btn-lg btn-primary square-right">Sign Up</button>
+				<button ng-click="signIn()" type="button" class="col-xs-6 btn btn-lg btn-primary square-left">Sign in</button>
 			</div>
 			<a>
-				<button type="button" class="col-xs-12 btn btn-lg btn-link">Forgot password?</button>
+				<button ng-click="forgotPassword()" type="button" class="col-xs-12 btn btn-lg btn-link">Forgot password?</button>
 			</a>
 			<div class="footer">
 				Copyright &copy; 2014 Team TBD
