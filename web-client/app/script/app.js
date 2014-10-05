@@ -1,4 +1,4 @@
-var app = angular.module('ThriftShopApp', ['ui.router']);
+var app = angular.module('ThriftShopApp', ['ui.router', 'ngMockE2E']);
 
 app.controller('MainController', function ($scope) {
 	
@@ -79,7 +79,8 @@ app.config(function($stateProvider, $urlRouterProvider) {
 	$stateProvider
 	.state('signin', {
 		url: '/signin',
-		templateUrl: 'partials/signin.html'
+		templateUrl: 'partials/signin.html',
+		controller: 'SignInController'
 	})
 	.state('main', {
 		url: '/main',
@@ -92,7 +93,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
 	.state('main.results', {
 		url: '/',
 		templateUrl: 'partials/main.results.html',
-		controller: 'ItemCtrl'
+		controller: 'ResultsController'
 	})
 	.state('main.categories', {
 		url: "/categories",

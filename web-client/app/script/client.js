@@ -1,36 +1,3 @@
-var items = [
-{'name': 'Nexus S',
-'summary': 'Fast just got faster with Nexus S.'},
-{'name': 'Motorola XOOM™ with Wi-Fi',
-'summary': 'The Next, Next Generation tablet.'},
-{'name': 'MOTOROLA XOOM™',
-'summary': 'The Next, Next Generation tablet.'},
-{'name': 'Nexus S',
-'summary': 'Fast just got faster with Nexus S.'},
-{'name': 'Motorola XOOM™ with Wi-Fi',
-'summary': 'The Next, Next Generation tablet.'},
-{'name': 'MOTOROLA XOOM™',
-'summary': 'The Next, Next Generation tablet.'},
-{'name': 'Nexus S',
-'summary': 'Fast just got faster with Nexus S.'},
-{'name': 'Motorola XOOM™ with Wi-Fi',
-'summary': 'The Next, Next Generation tablet.'},
-{'name': 'MOTOROLA XOOM™',
-'summary': 'The Next, Next Generation tablet.'},
-{'name': 'Nexus S',
-'summary': 'Fast just got faster with Nexus S.'},
-{'name': 'Motorola XOOM™ with Wi-Fi',
-'summary': 'The Next, Next Generation tablet.'},
-{'name': 'MOTOROLA XOOM™',
-'summary': 'The Next, Next Generation tablet.'},
-{'name': 'Nexus S',
-'summary': 'Fast just got faster with Nexus S.'},
-{'name': 'Motorola XOOM™ with Wi-Fi',
-'summary': 'The Next, Next Generation tablet.'},
-{'name': 'MOTOROLA XOOM™',
-'summary': 'The Next, Next Generation tablet.'},
-];
-
 app.factory('client', function($http, $q) {
 	function signIn(email, password) {
 		var deferred = $q.defer();
