@@ -13,4 +13,16 @@
 	</div>
 </div>
 
+<div ng-repeat="item in items">
+	<div class="col-xs-12 col-md-3" style="margin: 5px; background-color: #EEEEEE;">
+		<div class="col-xs-4" style="display: inline-block;">
+			<img src="/img/splash.jpg" style="background-size: cover; width: 100%;"></img>
+		</div>
+		<div class="col-xs-8">
+			<div style="font-weight: bold">{{item.name}}</div>
+			<div>{{item.summary}}</div>
+		</div>
+	</div>
+</div>
+	
 <div ui-view></div>

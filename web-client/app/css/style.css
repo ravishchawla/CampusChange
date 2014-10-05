@@ -76,8 +76,25 @@ body {
 }
 
 .title {
-	width: 100%;
+	position: absolute;
+	top: 0;
+	left: 64px;
+	right: 128px;
+	margin: 12px 0;
 	text-align: center;
+}
+
+.post-button {
+	display: inline-block;
+	position: absolute;
+	top: 0;
+	right: 64px;
+	background: url('/img/plus.png') no-repeat;
+	background-size: cover; 
+	width: 30px; 
+	height: 30px;
+	border:0;
+	margin: 17px 17px;
 }
 
 .search-button {
