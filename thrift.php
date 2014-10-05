@@ -41,55 +41,86 @@ class Request {
 	//TODO: fix how url params are handled. very bad way done in which it is now. 
 	public function handleGet() {
 
-		if(isset($_GET['list']) && isset($_GET['id'])) {
-			self::$list = $_GET['list'];
-			$authToken = $_GET['id'];
+		if(isset($_GET['action']) && isset($_GET['token'])) {
+			$action = $_GET['action'];
+			$authToken = $_GET['token'];
 
-			switch(self::$list) {
-				case 'users':
+			switch($action) {
+				case 'list_users':
 					Response::querySendUsers($authToken);
 					break;
-				case 'items':
-					self::querySendItems();
+				case 'list_items':
+					Response::querySendItems($authToken);
 					break;
+
+				case 'auth':
+					if(isset($_GET['user']) && isset($_GET['passwd']))
+						Response::authenticate($_GET['user'], $_GET['passwd']);
+					else
+						Response::sendError(400);
+					break;
+
+				case 'get':
+					if(isset($_GET['user']))
+						Response::queryGetUser($_GET['user'], $authToken);
+					else if(isset($_GET['item']))
+						Response::queryGetItem($_GET['item'], $authToken);
+					else
+						Response::sendError(400);
+					break;
+
+				case 'changePasswd':
+					if (isset($_GET['user']) && isset($_GET['oldpasswd']) && isset($_GET['newpasswd']))		
+						Response::changePassword($authToken, $_GET['user'], $_GET['oldpasswd'], $_GET['newpasswd']);
+					else
+						Response::sendError(400);
+					break;
+
+				case 'delete':
+					if(isset($_GET['user']) && isset($_GET['passwd']))
+						Response::deleteUser($_GET['user'], $_GET['passwd'], $authToken);
+					else 
+						Response::sendError(400);
+					break;
+
 				default:
+				defaultLabel:
 					Response::sendError(400);
 			}
-		}
-
-		else if(isset($_GET['auth']) && isset($_GET['passwd'])) {
-			Response::authenticate($_GET['auth'], $_GET['passwd']);
-		}
-
-		else if (isset($_GET['user']) && isset($_GET['oldpasswd']) && isset($_GET['newpasswd']) && isset($_GET['id']))
-		{
-			
-			Response::changePassword($_GET['id'], $_GET['user'], $_GET['oldpasswd'], $_GET['newpasswd']);
-		}
-
-		else if(isset($_GET['user']) && isset($_GET['id'])) {
-			Response::queryGetUser($_GET['user'], $_GET['id']);
-		}
-
-		else if (isset($_GET['delete']) && isset($_GET['passwd']) && isset($_GET['id']))
-		{
-			Response::deleteUser($_GET['delete'], $_GET['passwd'], $_GET['id']);
-		}
-
-		else {
-			Response::sendError(400);
 		}
 
 	}
 
 	public function handlePost() {
 
-		if(isset($_POST['id']) && isset($_POST['user']) && isset($_POST['email']) && isset($_POST['passwd'])) {
-			$firstName = isset($_POST['fname']) ? $_POST['fname'] : null;
-			$lastName = isset($_POST['lname']) ? $_POST['lname'] : null;
+		if(isset($_POST['action'])) {
+			$action = $_POST['action'];
 
+			switch ($action) {
+				case 'insert':
+					if(isset($_POST['user']) && isset($_POST['email']) && isset($_POST['passwd'])) {
+						$firstName = isset($_POST['fname']) ? $_POST['fname'] : null;
+						$lastName = isset($_POST['lname']) ? $_POST['lname'] : null;
 
-			Response::putUser($_POST['id'], $_POST['user'], $_POST['email'], $_POST['passwd'], $firstName, $lastName);
+						Response::putUser($_POST['user'], $_POST['email'], $_POST['passwd'], $firstName, $lastName);
+					
+					else if(isset($_POST['item']) && isset($_POST['poster']) && isset($_POST['date'])) {
+
+						Response::putItem($_POST['item'], $_POST['poster'], $_POST['date']);
+					}
+					else {
+						Response::sendError(400);
+					}
+					break;
+
+				
+				default:
+					# code...
+					break;
+			}
+		}
+
+		
 		}
 
 	}

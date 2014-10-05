@@ -35,9 +35,21 @@ class AWSWrapper {
 		self::authenticateDDB();
 		$response = self::$ddbClient->scan(array("TableName" => USERS));
 		
-		return $response;
+		return json_encode($response->toArray());
 
 		
+	}
+
+	public function scanAllItems($authToken) {
+		$accountValidation = self::validateToken($authToken);
+		if($accountValidation === False) {
+			echo Response::sendError(401);
+			return;
+		}
+		self::authenticateDDB();
+		$response = self::$ddbClient->scan(array("TableName" => "items"));
+
+		return json_encode($response->toArray());
 	}
 
 	public function putUser($username, $email, $password, $firstName = "", $lastName = "") {
@@ -66,7 +78,6 @@ class AWSWrapper {
 			$item['lastName'] = array(Type::STRING => $lastName);
 		}			
 
-		echo var_export($item, true);
 		$response = self::$ddbClient->putItem(array("TableName" => USERS, "Item" => $item,
 												)
 											);
@@ -74,6 +85,28 @@ class AWSWrapper {
 		echo var_export($response, true);
 		return $response;
 	}
+
+	public function putItem($item_name, $item_poster, $item_date, $item_price) {
+
+		self::authenticateDDB();
+		$uuid = Utility::createV5Uid($username);
+		$encryptedPassword = Utility::encrypt($password);
+
+		$item = array(
+					"item_name" => array(Type::STRING => $item_name),
+					"item_poster" => array(Type::STRING => $item_poster),
+					"item_date" => array(Type::STRING => $item_date),
+					"item_price" => array(Type::STRING => $item_price));
+
+		$response = self::$ddbClient->putItem(array("TableName" => "item", "Item" => $item,
+												)
+											);
+
+		echo var_export($response, true);
+		return $response;
+	}
+
+
 
 	private function authenticateS3() {
 		if(!isset(self::$s3Client)) {
@@ -146,7 +179,7 @@ class AWSWrapper {
 
 		}
 
-		return $uuid;
+		return $uuid['S'];
 	}
 
 	private function getClientToken($user_id, $password) {
@@ -226,6 +259,45 @@ class AWSWrapper {
 
 	}
 
+	private function getItems($item, $attributes) {
+		$response = self::$ddbClient->query(array(
+										'TableName' => "items",
+										'IndexName' => 'item_name-index',
+										"KeyConditions" => array(
+												"item_name" => array(
+													"ComparisonOperator" => ComparisonOperator::EQ,
+													"AttributeValueList" => array(
+														array(Type::STRING => $item)
+													)
+												)
+											),
+										"AttributesToGet" => $attributes,
+									));
+		return $response;
+	}
+
+	public function getItemDetails($item, $token) {
+		self::authenticateDDB();
+		$validateToken = self::validateToken($token);
+
+		if($validateToken === false) {
+			echo Response::sendError(401);
+			return;
+		}
+
+		$attributes = array("item_name", "item_poster", "item_date");
+		$response = self::getItem($item, $attributes);
+
+		if($response['Count'] == 0) {
+			echo Response::sendError(404);
+			return;
+		}		
+
+		else {
+			return json_encode($response->toArray());
+		}
+	}
+
 	public function getUserDetails($user, $token) {
 		self::authenticateDDB();
 		$validateToken = self::validateToken($token);
@@ -246,7 +318,7 @@ class AWSWrapper {
 	}
 
 	else {
-		return $response;
+		return json_encode($response->toArray());
 	}
 	
 	}

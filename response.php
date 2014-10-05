@@ -26,7 +26,7 @@ class Response {
 
 	public function authenticate($user_id, $password) {
 		$uuid = AWSWrapper::authenticateClient($user_id, $password);
-		echo $uuid['S'];
+		echo $uuid;
 	}
 
 	
@@ -34,20 +34,38 @@ class Response {
 	public function querySendUsers($authToken) {
 		$users = AWSWrapper::scanAllUsers($authToken);
 		if(isset($users)) {
-			echo json_encode($users->toArray(), JSON_PRETTY_PRINT);
+			echo $users;
 		}
 
+	}
+
+	public function queryGetItems($authToken) {
+		$items = AWSWrapper::scanAllItems($authToken);
+		if(isset($items)) {
+			echo $items;
+		}
 	}
 
 	public function queryGetUser($user, $token) {
 		$user = AWSWrapper::getUserDetails($user, $token);
 		if(isset($user)) {
-			echo json_encode($user->toArray(), JSON_PRETTY_PRINT);
+			echo $user;
+		}
+	}
+
+	public function queryGetItem($item, $token) {
+		$item = AWSWrapper::getItemDetails($item, $token);
+		if(isset($item)) {
+			echo $item;
 		}
 	}
 
 	public function putUser($token, $username, $email, $password, $firstName, $lastName) {
 		AWSWrapper::putUser($username, $email, $password, $firstName, $lastName);
+	}
+
+	public function putItem($item_name, $item_poster, $item_date, $item_price) {
+		AWSWrapper::putItem($item_name, $item_poster, $item_date, $item_price);
 	}
 
 	public function deleteUser($user, $password, $token) {
