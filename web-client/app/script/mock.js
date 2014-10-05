@@ -36,7 +36,7 @@ app.run(function($httpBackend) {
 		return [200, 'token', {}];
 	});
 	$httpBackend.whenGET(/thrift.php\?action=list_items.*/).respond(function(method, url, data) {
-		return [200, 'token', {}];
+		return [200, items, {}];
 	});
 	$httpBackend.whenGET(/partials\/.*/).passThrough();
 });
