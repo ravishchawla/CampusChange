@@ -53,7 +53,7 @@ class Request {
 					Response::querySendUsers($authToken);
 					break;
 				case 'list_items':
-					Response::querySendItems($authToken);
+					Response::queryGetItems($authToken);
 					break;
 
 				case 'auth':
@@ -108,9 +108,9 @@ class Request {
 						Response::putUser($_POST['user'], $_POST['email'], $_POST['passwd'], $firstName, $lastName);
 					}
 
-					else if(isset($_POST['item']) && isset($_POST['poster']) && isset($_POST['date'])) {
+					else if(isset($_POST['item']) && isset($_POST['poster']) && isset($_POST['date']) && isset($_POST['price'])) {
 
-						Response::putItem($_POST['item'], $_POST['poster'], $_POST['date']);
+						Response::putItem($_POST['item'], $_POST['poster'], $_POST['date'], $_POST['price']);
 					}
 					else {
 						Response::sendError(400);

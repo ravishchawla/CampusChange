@@ -60,7 +60,7 @@ class Response {
 		}
 	}
 
-	public function putUser($token, $username, $email, $password, $firstName, $lastName) {
+	public function putUser($username, $email, $password, $firstName, $lastName) {
 		AWSWrapper::putUser($username, $email, $password, $firstName, $lastName);
 	}
 
