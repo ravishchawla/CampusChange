@@ -2,7 +2,8 @@
 <body>
 <h2>Login user</h2>
 <form action="thrift.php" method="get">
- User: <input type="text" name="auth"><br>
+<input type="hidden" action="action" value="auth"><br>
+ User: <input type="text" name="user"><br>
  Password: <input type="text" name="passwd"><br>
  <input type="submit">
  </form>
@@ -10,7 +11,7 @@
 
 <h2>Insert new user</h2>
 <form action="thrift.php" method="post">
-Token: <input type="text" name="id" value="not required"><br>
+<input type="hidden" name="action" value="insert"><br>
 User: <input type="text" name="user"><br>
 Email: <input type="text" name="email"><br>
 Password: <input type="password" name="passwd"><br>
@@ -19,20 +20,22 @@ Password: <input type="password" name="passwd"><br>
 
 <h2>Get List of all user</h2>
 <form action="thrift.php" method="get">
-<input type="hidden" name="list" value="users"><br>
+<input type="hidden" name="action" value="list_users"><br>
 Token: <input type="text" name="id"><br>
 <input type="submit">
 </form>
 
 <h2>Get User details</h2>
 <form action="thrift.php" method="get">
-User: <input type="text" name="user"><br>
+<input type="hidden" name="action" value="get"><br>
 Token: <input type="text" name="id"><br>
+User: <input type="text" name="user"><br>
 <input type="submit">
 </form>
 
 <H2>Delete User</h2>
 <form action="thrift.php" method="get">
+<input type="hidden" name="action" value="delete"><br>
 User: <input type="text" name="delete"><br>
 Password: <input type="password" name="passwd"><br>
 Token: <input type="text" name="id"><br>
@@ -41,10 +44,26 @@ Token: <input type="text" name="id"><br>
 
 <h2>Change Password</h2>
 <form action="thrift.php" method="get">
+<input type="hidden" name="action" value="changePasswd"><br>
 Token: <input type="text" name="id"><br>
 User: <input type="text" name="user"><br>
 Old password: <input type="text" name="oldpasswd"><br>
 New Password: <input type="text" name="newpasswd"><br>
+<input type="submit">
+</form>
+
+<h2>List of all items></h2>
+<form action="thrift.php" method="get">
+<input type="hidden" name="action" value="list_items"><br>
+Token: <input type="text" name="id"><br>
+<input type="submit">
+</form>
+
+<h2>Get Item details><h2>
+<form action="thrift.php" method="get">
+<input type="hidden" name="action" value="get"><br>
+Token: <input type="text" name="id"><br>
+Item: <input type="text" name="item"><br>
 <input type="submit">
 </form>
 
