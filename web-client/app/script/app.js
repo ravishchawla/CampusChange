@@ -95,7 +95,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
 		url: '/main',
 		templateUrl: 'partials/main.html'
 	})
-	.state('error', {
+	.state('main.error', {
 		url: '/error',
 		templateUrl: 'partials/main.error.html'
 	})
