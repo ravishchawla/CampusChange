@@ -4,8 +4,13 @@ app.controller('MainController', function ($scope) {
 	
 });
 
-app.controller('ResultsController', function ($scope, client) {
-	
+app.controller('ResultsController', function ($scope, $state, client) {
+	var request = client.getItems();
+	request.then(function (items) {
+		$scope.items = items;
+	}, function (error) {
+		$state.go('main.error');
+	});
 });
 
 app.controller('SignInController', function ($scope, $state, model, client) {	
@@ -53,22 +58,26 @@ app.controller('SignInController', function ($scope, $state, model, client) {
 });
 
 app.factory('model', function() {
-	var user = {
-		email: null,
-		token: null,
-	};
+	var email = null;
+	var token = null;
 	
 	return {
 		isAuthenticated: function () {
-			return (user.token != null);
+			return (token != null);
+		},
+		getToken: function() {
+			return token;
+		},
+		getEmail: function() {
+			return email;
 		},
 		signIn: function(email, token) {
-			user.email = email;
-			user.token = token;
+			email = email;
+			token = token;
 		},
 		signOut: function() {
-			user.username = null;
-			user.token = null;
+			username = null;
+			token = null;
 		}
 	};
 });
@@ -85,6 +94,10 @@ app.config(function($stateProvider, $urlRouterProvider) {
 	.state('main', {
 		url: '/main',
 		templateUrl: 'partials/main.html'
+	})
+	.state('error', {
+		url: '/error',
+		templateUrl: 'partials/main.error.html'
 	})
 	.state('main.account', {
 		url: '/account',
