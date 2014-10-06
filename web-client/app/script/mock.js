@@ -38,5 +38,8 @@ app.run(function($httpBackend) {
 	$httpBackend.whenGET(/thrift.php\?action=list_items.*/).respond(function(method, url, data) {
 		return [200, items, {}];
 	});
+	$httpBackend.whenGET(/thrift.php\?action=get.*/).respond(function(method, url, data) {
+		return [200, items[0], {}];
+	});
 	$httpBackend.whenGET(/partials\/.*/).passThrough();
 });

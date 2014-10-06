@@ -1,16 +1,25 @@
 var app = angular.module('ThriftShopApp', ['ui.router', 'ngMockE2E']);
 
 app.controller('MainController', function ($scope) {
-	
+	$scope.back = function () {
+		history.go(-1);
+	}
 });
 
-app.controller('ResultsController', function ($scope, $state, client) {
+app.controller('ResultsController', function ($scope, $state, $stateParams, client) {
+	$scope.query = $stateParams.query;
+	$scope.category = $stateParams.category;
+
 	var request = client.getItems();
 	request.then(function (items) {
 		$scope.items = items;
 	}, function (error) {
 		$state.go('main.error');
 	});
+});
+
+app.controller('ListingController', function ($scope, $state, $stateParams) {
+	
 });
 
 app.controller('SignInController', function ($scope, $state, model, client) {	
@@ -58,26 +67,28 @@ app.controller('SignInController', function ($scope, $state, model, client) {
 });
 
 app.factory('model', function() {
-	var email = null;
-	var token = null;
-	
+	var model = {
+		email: null,
+		token: null,
+	}
+		
 	return {
 		isAuthenticated: function () {
-			return (token != null);
-		},
-		getToken: function() {
-			return token;
+			return (model.token != null);
 		},
 		getEmail: function() {
-			return email;
+			return model.email;
+		},
+		getToken: function() {
+			return model.token;
 		},
 		signIn: function(email, token) {
-			email = email;
-			token = token;
+			model.email = email;
+			model.token = token;
 		},
 		signOut: function() {
-			username = null;
-			token = null;
+			model.username = null;
+			model.token = null;
 		}
 	};
 });
@@ -93,7 +104,8 @@ app.config(function($stateProvider, $urlRouterProvider) {
 	})
 	.state('main', {
 		url: '/main',
-		templateUrl: 'partials/main.html'
+		templateUrl: 'partials/main.html',
+		controller: 'MainController'
 	})
 	.state('main.error', {
 		url: '/error',
@@ -104,13 +116,14 @@ app.config(function($stateProvider, $urlRouterProvider) {
 		templateUrl: 'partials/main.account.html'
 	})
 	.state('main.results', {
-		url: '/',
+		url: '/?query&category',
 		templateUrl: 'partials/main.results.html',
 		controller: 'ResultsController'
 	})
 	.state('main.listing', {
 		url: '/listing',
-		templateUrl: 'partials/main.listing.html'
+		templateUrl: 'partials/main.listing.html',
+		controller: 'MainController'
 	})
 	.state('main.categories', {
 		url: "/categories",
@@ -123,12 +136,13 @@ app.config(function($stateProvider, $urlRouterProvider) {
 });
 
 app.run(function($rootScope, $state, model) {
-	$rootScope.$on('$stateChangeStart', function(event, toState, toStateParameters) {
+	$rootScope.$on('$stateChangeStart', function(event, toState, toStateParameters, fromState) {
 		$rootScope.toState = toState;
 		$rootScope.toStateParameters = toStateParameters;
 		
 		if (toState.name !== 'signin' && !model.isAuthenticated()) {
+			event.preventDefault();
 			$state.go('signin');
-		}
+		} 
 	});
 });
