@@ -7,6 +7,10 @@
     "angular": "1.2.x",
     "angular-mocks": "~1.2.x",
     "bootstrap": "~3.2.x",
-    "angular-ui-router": "~0.2.11"
+    "angular-ui-router": "~0.2.11",
+    "angular-cookies": "~1.2.26"
+  },
+  "resolutions": {
+    "angular": "1.2.26"
   }
 }

@@ -1,4 +1,4 @@
-var app = angular.module('ThriftShopApp', ['ui.router', 'ngMockE2E']);
+var app = angular.module('ThriftShopApp', ['ui.router', 'ngMockE2E', 'ngCookies']);
 
 app.controller('MainController', function ($scope) {
 	$scope.back = function () {
@@ -21,6 +21,15 @@ app.controller('ResultsController', function ($scope, $state, $stateParams, clie
 app.controller('ListingController', function ($scope, $state, $stateParams) {
 	
 });
+
+app.controller('AccountController', function ($scope, $state, model) {
+	$scope.email = model.getEmail();
+	
+	$scope.signOut = function () {
+		model.signOut();
+		$state.go('signin');
+	}
+})
 
 app.controller('SignInController', function ($scope, $state, model, client) {	
 	function validateForm() {
@@ -66,10 +75,13 @@ app.controller('SignInController', function ($scope, $state, model, client) {
 	}
 });
 
-app.factory('model', function() {
+app.factory('model', function($cookieStore) {
+	// TODO: model should be moved into rootscope so bindings work.
+	//
+	
 	var model = {
-		email: null,
-		token: null,
+		email: $cookieStore.get('email'),
+		token: $cookieStore.get('token'),
 	}
 		
 	return {
@@ -83,10 +95,16 @@ app.factory('model', function() {
 			return model.token;
 		},
 		signIn: function(email, token) {
+			$cookieStore.put('email', email);
+			$cookieStore.put('token', token);
+			
 			model.email = email;
 			model.token = token;
 		},
 		signOut: function() {
+			$cookieStore.remove('email');
+			$cookieStore.remove('token');
+			
 			model.username = null;
 			model.token = null;
 		}
@@ -113,7 +131,8 @@ app.config(function($stateProvider, $urlRouterProvider) {
 	})
 	.state('main.account', {
 		url: '/account',
-		templateUrl: 'partials/main.account.html'
+		templateUrl: 'partials/main.account.html',
+		controller: 'AccountController'
 	})
 	.state('main.listings', {
 		url: '/listings?category',
