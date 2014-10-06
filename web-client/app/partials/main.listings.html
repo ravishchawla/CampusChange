@@ -17,7 +17,7 @@
 <h2> Category: {{category}} </h2>
 
 <div ng-repeat="item in items">
-	<a class="col-xs-12 col-md-3" style="margin: 5px; background-color: #EEEEEE;" ui-sref="main.listing">
+	<a class="col-xs-12 col-md-3" style="margin: 5px; background-color: #EEEEEE;" ui-sref="main.listing({id: $index})">
 		<div class="col-xs-4" style="display: inline-block;">
 			<img src="/img/splash.jpg" style="background-size: cover; width: 100%;"></img>
 		</div>

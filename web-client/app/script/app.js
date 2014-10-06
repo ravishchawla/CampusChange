@@ -115,13 +115,13 @@ app.config(function($stateProvider, $urlRouterProvider) {
 		url: '/account',
 		templateUrl: 'partials/main.account.html'
 	})
-	.state('main.results', {
-		url: '/?query&category',
-		templateUrl: 'partials/main.results.html',
+	.state('main.listings', {
+		url: '/listings?category',
+		templateUrl: 'partials/main.listings.html',
 		controller: 'ResultsController'
 	})
 	.state('main.listing', {
-		url: '/listing',
+		url: '/listings/{id}',
 		templateUrl: 'partials/main.listing.html',
 		controller: 'MainController'
 	})

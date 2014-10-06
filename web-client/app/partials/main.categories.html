@@ -1,22 +1,27 @@
 <div class="row" id="content">
 	<div class="col-sm-3 col-md-2 col-lg-3"></div>
 	<div class="col-xs-12 col-sm-6 col-md-8  col-lg-6">
-		<button ui-sref="main.results" type="button" class="btn btn-primary btn-lg btn-block">All</button>
+		<button ui-sref="main.listings" type="button" class="btn btn-primary btn-lg btn-block">All</button>
 	</div>
 </div>
 <div class="row" id="content">
 	<div class="col-sm-3 col-md-2 col-lg-3"></div>
 	<div class="col-xs-12 col-sm-6 col-md-8  col-lg-6">
-		<button ui-sref="main.results" type="button" class="btn btn-primary btn-lg btn-block">Category 1</button>
+		<button ui-sref="main.listings({category:'books'})" type="button" class="btn btn-primary btn-lg btn-block">Books</button>
 	</div>
 </div>
 <div class="row" id="content">
 	<div class="col-sm-3 col-md-2 col-lg-3"></div>
 	<div class="col-xs-12 col-sm-6 col-md-8  col-lg-6">
-		<button ui-sref="main.results" type="button" class="btn btn-primary btn-lg btn-block">Category 2</button>
+		<button ui-sref="main.listings({category:'electronics'})" type="button" class="btn btn-primary btn-lg btn-block">Electronics</button>
 	</div>
 </div>
-
+<div class="row" id="content">
+	<div class="col-sm-3 col-md-2 col-lg-3"></div>
+	<div class="col-xs-12 col-sm-6 col-md-8  col-lg-6">
+		<button ui-sref="main.listings({category:'other'})" type="button" class="btn btn-primary btn-lg btn-block">Other</button>
+	</div>
+</div>
 <br><br><br>
 <div class="row" id="content">
 	<div class="col-sm-3 col-md-2 col-lg-3"></div>
