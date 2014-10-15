@@ -7,7 +7,6 @@ define('REGION', 'us-east-1');
 define('USERS', 'users');
 define('ITEMS', 'items');
 
-
 use Aws\S3\S3Client;
 use Aws\Ec2\Ec2Client;
 use Aws\DynamoDb\DynamoDbClient;
@@ -36,7 +35,6 @@ class AWSWrapper {
 		$response = self::$ddbClient->scan(array("TableName" => USERS));
 		
 		return json_encode($response->toArray());
-
 		
 	}
 

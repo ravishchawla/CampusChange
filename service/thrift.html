@@ -1,5 +1,12 @@
-<html>
+		<html>
 <body>
+
+<h2>Test request</h2>
+<form action="thrift.php" method="GET">
+<input type="hidden" name="example"><br>
+<input type="submit">
+</form>
+
 <h2>Login user</h2>
 <!--GET thrift.php?action=auth&user=abc&passwd=123-->
 <form action="thrift.php" method="get">
@@ -78,7 +85,7 @@ Token: <input type="text" name="token"><br>
 </form>
 
 <h2>Get Item details<h2>
-<!--GET thrift.php?action=get&token=123&item=abc-->
+<!--GET thrift.php?action=get&token=123&item=abc-->	
 <form action="thrift.php" method="get">
 <input type="hidden" name="action" value="get"><br>
 Token: <input type="text" name="token"><br>
