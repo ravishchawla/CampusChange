@@ -17,7 +17,7 @@ $ bower install
 #### Application Start
 
 ```sh
-$ gulp release
+$ gulp debug
 ```
 
 Point browser to [http://localhost:8000](http://localhost:8000)

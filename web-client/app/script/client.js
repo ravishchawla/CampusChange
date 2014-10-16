@@ -2,12 +2,9 @@ app.factory('client', function($http, $q, model) {
 	function signIn(email, password) {
 		var deferred = $q.defer();
 		
-		$http.get('/thrift.php', {
-			params: {
-				action: 'auth',
-				user: email,
-				passwd: password
-			}
+		$http.post('/api/auth', {
+			email: email,
+			password: password
 		}).then(function (result) {
 			deferred.resolve(result.data);
 		}, function(error) {
@@ -27,13 +24,9 @@ app.factory('client', function($http, $q, model) {
 	function changePassword(oldPassword, newPassword) {
 		var deferred = $q.defer();
 		
-		$http.get('/thrift.php', {
-			params: {
-				action: 'changePasswd',
-				oldpasswd: oldPassword,
-				newpasswd: newPassword,
-				id: $model.getToken()
-			}
+		$http.put('/api/user', {
+			oldPassword: oldPassword,
+			newPassword: newPassword
 		}).then(function(result) {
 			deferred.resolve(result.data);
 		}, function(error) {
@@ -53,12 +46,8 @@ app.factory('client', function($http, $q, model) {
 	function getItems() {
 		var deferred = $q.defer();
 		
-		$http.get('/thrift.php', {
-			params: {
-				action: 'list_items',
-				id: model.getToken()
-			}
-		}).then(function(result) {
+		$http.get('/api/listings')
+		.then(function(result) {
 			deferred.resolve(result.data);
 		}, function(error) {
 			deferred.reject(error);
@@ -70,13 +59,8 @@ app.factory('client', function($http, $q, model) {
 	function getItem(item) {
 		var deferred = $q.defer();
 		
-		$http.get('/thrift.php', {
-			params: {
-				action: 'get',
-				item: item,
-				id: model.getToken()
-			}
-		}).then(function(result) {
+		$http.get('/api/listing/' + item)
+		.then(function(result) {
 			deferred.resolve(result.data);
 		}, function(error) {
 			deferred.reject(error);

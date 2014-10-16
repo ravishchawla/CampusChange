@@ -75,15 +75,17 @@ app.controller('SignInController', function ($scope, $state, model, client) {
 	}
 });
 
-app.factory('model', function($cookieStore) {
+app.factory('model', function($cookieStore, $http) {
 	// TODO: model should be moved into rootscope so bindings work.
 	//
+	
+	var sessionHeader = 'X-SessionId';
 	
 	var model = {
 		email: $cookieStore.get('email'),
 		token: $cookieStore.get('token'),
-	}
-		
+	};
+	
 	return {
 		isAuthenticated: function () {
 			return (model.token != null);
@@ -95,6 +97,7 @@ app.factory('model', function($cookieStore) {
 			return model.token;
 		},
 		signIn: function(email, token) {
+			$http.defaults.headers.common[sessionHeader] = token;
 			$cookieStore.put('email', email);
 			$cookieStore.put('token', token);
 			
@@ -102,6 +105,7 @@ app.factory('model', function($cookieStore) {
 			model.token = token;
 		},
 		signOut: function() {
+			delete $http.defaults.headers.common[sessionHeader];
 			$cookieStore.remove('email');
 			$cookieStore.remove('token');
 			
