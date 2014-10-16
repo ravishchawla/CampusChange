@@ -18,8 +18,13 @@ app.controller('ResultsController', function ($scope, $state, $stateParams, clie
 	});
 });
 
-app.controller('ListingController', function ($scope, $state, $stateParams) {
-	
+app.controller('ListingController', function ($scope, $state, $stateParams, client) {
+	var request = client.getItem($stateParams.id);
+	request.then(function (item) {
+		$scope.item = item;
+	}, function (error) {
+		$state.go('main.error');
+	});
 });
 
 app.controller('AccountController', function ($scope, $state, model, client) {
@@ -157,7 +162,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
 	.state('main.listing', {
 		url: '/listings/{id}',
 		templateUrl: 'partials/main.listing.html',
-		controller: 'MainController'
+		controller: 'ListingController'
 	})
 	.state('main.categories', {
 		url: "/categories",

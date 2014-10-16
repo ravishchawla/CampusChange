@@ -28,7 +28,7 @@ function userForToken(token) {
 
 app.run(function($httpBackend) {
 	// Get an authorization token
-	$httpBackend.whenPOST(/api\/auth/).respond(function(method, url, data) {
+	$httpBackend.whenPOST(/api\/auth$/).respond(function(method, url, data) {
 		var authObject = angular.fromJson(data);
 		var user = users[authObject.email];
 		if (!user || authObject.password !== user.password) {
@@ -42,7 +42,7 @@ app.run(function($httpBackend) {
 	});
 	
 	// Update the authenticated users password
-	$httpBackend.whenPUT(/api\/user/).respond(function(method, url, data, headers) {
+	$httpBackend.whenPUT(/api\/user$/).respond(function(method, url, data, headers) {
 		var user = userForToken(headers['X-SessionId']);
 		if (!user) {
 			return [401, null, {}];
@@ -58,7 +58,7 @@ app.run(function($httpBackend) {
 	});
 	
 	// Delete the authenticated user
-	$httpBackend.whenDELETE(/api\/auth/).respond(function(method, url, data, headers) {
+	$httpBackend.whenDELETE(/api\/auth$/).respond(function(method, url, data, headers) {
 		var user = userForToken(headers['X-SessionId']);
 		if (!user) {
 			return [401, null, {}];
@@ -74,7 +74,7 @@ app.run(function($httpBackend) {
 	});
 	
 	// Get all listings
-	$httpBackend.whenGET(/api\/listings/).respond(function(method, url, data, headers) {
+	$httpBackend.whenGET(/api\/listings$/).respond(function(method, url, data, headers) {
 		var user = userForToken(headers['X-SessionId']);
 		if (!user) {
 			return [401, null, {}];
@@ -83,8 +83,20 @@ app.run(function($httpBackend) {
 		return [200, listings, {}];
 	});
 	
+	// Get a specific listing
+	$httpBackend.whenGET(/api\/listings\.*/).respond(function(method, url, data, headers) {
+		var user = userForToken(headers['X-SessionId']);
+		if (!user) {
+			return [401, null, {}];
+		}
+
+		var id = url.split('/').pop();
+
+		return [200, listings[id], {}];
+	});
+	
 	// Post a listing
-	$httpBackend.whenPOST(/api\/listings/).respond(function(method, url, data, headers) {
+	$httpBackend.whenPOST(/api\/listings$/).respond(function(method, url, data, headers) {
 		var user = userForToken(headers['X-SessionId']);
 		if (!user) {
 			return [401, null, {}];

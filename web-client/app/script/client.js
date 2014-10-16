@@ -59,7 +59,7 @@ app.factory('client', function($http, $q, model) {
 	function getItem(item) {
 		var deferred = $q.defer();
 		
-		$http.get('/api/listing/' + item)
+		$http.get('/api/listings/' + item)
 		.then(function(result) {
 			deferred.resolve(result.data);
 		}, function(error) {
