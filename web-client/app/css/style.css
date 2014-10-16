@@ -1,6 +1,38 @@
+/********************************************************************
+
+********************************************************************/
+
 body {
 	font-family: Verdana, Geneva, sans-serif;
 }
+
+/********************************************************************
+
+********************************************************************/
+
+.square-top {
+	border-top-left-radius: 0;
+	border-top-right-radius: 0;
+}
+
+.square-bottom {
+	border-bottom-left-radius: 0;
+	border-bottom-right-radius: 0;
+}
+
+.square-right {
+	border-top-right-radius: 0;
+	border-bottom-right-radius: 0;
+}
+
+.square-left {
+	border-top-left-radius: 0;
+	border-bottom-left-radius: 0;
+}
+
+/********************************************************************
+
+********************************************************************/
 
 .splash {
 	background: url("/img/splash.jpg");
@@ -31,25 +63,9 @@ body {
 	padding-top: 10px;
 }
 
-.square-bottom {
-	border-bottom-left-radius: 0;
-	border-bottom-right-radius: 0;
-}
+/********************************************************************
 
-.square-top {
-	border-top-left-radius: 0;
-	border-top-right-radius: 0;
-}
-
-.square-right {
-	border-top-right-radius: 0;
-	border-bottom-right-radius: 0;
-}
-
-.square-left {
-	border-top-left-radius: 0;
-	border-bottom-left-radius: 0;
-}
+********************************************************************/
 
 .footer {
 	color: grey;
@@ -62,8 +78,11 @@ body {
 	left: 0;
 	right: 0;
 	z-index: 10;
-	background: #CFB53B;
+	background-color: #000000;
+    color: #eeb211;
+    font-weight: bold;
 	height: 64px;
+    border-bottom: 5px solid #eeb211;
 }
 
 .app-content {
@@ -90,6 +109,7 @@ body {
 	right: 128px;
 	margin: 12px 0;
 	text-align: center;
+    font-weight: bold;
 }
 
 .post-button {
@@ -118,31 +138,43 @@ body {
 	margin: 10px 10px;
 }
 
+.btn-primary {
+    margin: 2px;
+    border-radius: 0;
+    background-color: #000000;
+    color: #eeb211;
+    border: 1px solid #eeb211;
+}
+
+.categories-container {
+	margin: 15px 0px;
+}
+
 .toolbar {
 	
 }
 
 #wrapper {
-min-height:100%;
-position:relative;
+	min-height:100%;
+	position:relative;
 }
 
 
 #header1 {
-padding:2px;
-padding-top: 12px;
-padding-bottom: 2px;
-background:#f1cc21;
+	padding:2px;
+	padding-top: 12px;
+	padding-bottom: 2px;
+	background:#f1cc21;
 }
 
 #content {
-padding:0px;
-padding-bottom:2px; /* Height of the footer element */
+	padding:0px;
+	padding-bottom:2px; /* Height of the footer element */
 }
 
 #footer {
-height:1px;
-position:absolute;
-bottom:0;
-left:0;
+	height:1px;
+	position:absolute;
+	bottom:0;
+	left:0;
 }

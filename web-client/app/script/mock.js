@@ -21,7 +21,6 @@ var users = {
 var tokens = {};
 
 function userForToken(token) {
-	if (!token) return null;
 	var email = tokens[token];
 	if (!email) return null;
 	return users[email];
@@ -50,8 +49,8 @@ app.run(function($httpBackend) {
 		}
 		
 		var userChanges = angular.fromJson(data);
-		if (userChanges.password === user.password) {
-			user.password = userChanges.password;
+		if (userChanges.oldPassword === user.password) {
+			user.password = userChanges.newPassword;
 			return [200, null, {}];
 		} else {
 			return [401, null, {}];

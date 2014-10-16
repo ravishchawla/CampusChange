@@ -22,13 +22,22 @@ app.controller('ListingController', function ($scope, $state, $stateParams) {
 	
 });
 
-app.controller('AccountController', function ($scope, $state, model) {
+app.controller('AccountController', function ($scope, $state, model, client) {
 	$scope.email = model.getEmail();
+	
+	$scope.changePassword = function() {
+		var req = client.changePassword($scope.oldPassword, $scope.newPassword);
+		req.then(function () {
+			alert('success');
+		}, function () {
+			alert('failure');
+		});
+	};
 	
 	$scope.signOut = function () {
 		model.signOut();
 		$state.go('signin');
-	}
+	};
 })
 
 app.controller('SignInController', function ($scope, $state, model, client) {	
@@ -86,6 +95,8 @@ app.factory('model', function($cookieStore, $http) {
 		token: $cookieStore.get('token'),
 	};
 	
+	$http.defaults.headers.common[sessionHeader] = model.token;
+
 	return {
 		isAuthenticated: function () {
 			return (model.token != null);

@@ -1,3 +1,10 @@
 <h1>Account:<h1>
 <h3>{{email}}</h3>
-<button ng-click="signOut()"> sign out </button>
+<h3>Change Password</h3>
+<form name="password">
+	<input ng-model="oldPassword" type="password" class=​"form-control square-bottom" placeholder="Old Password" required>
+	<input ng-model="newPassword" type="password" class=​"form-control square-top" placeholder="New Password" required>​
+	<button ng-click="changePassword()"> Change </button>
+</form>
+<h3>Sign out</h3>
+<button ng-click="signOut()"> Sign Out </button>
