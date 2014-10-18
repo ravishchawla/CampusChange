@@ -72,6 +72,9 @@ body {
 	position: absolute;
 	top: 0;
 	left: 0;
+	width: 44px; 
+	height: 44px;
+    margin: 10px;
     fill: #eeb211;
 }
 
@@ -96,6 +99,9 @@ body {
 	position: absolute;
 	top: 0;
 	right: 64px;
+    width: 44px;
+	height: 44px;
+    margin: 10px;
     fill: #eeb211;
 }
 
@@ -104,6 +110,9 @@ body {
 	position: absolute;
 	top: 0;
 	right: 0;
+    width: 44px; 
+	height: 44px;
+    margin: 10px;
     fill: #eeb211;
 }
 
@@ -132,61 +141,6 @@ body {
 
 .app-content {
 	padding-top: 64px;
-}
-
-.back-button {
-	display: inline-block;
-	position: absolute;
-	top: 0;
-	left: 0;
-	background: url('/img/arrow.png') no-repeat;
-	background-size: cover; 
-	width: 44px; 
-	height: 44px;
-	border:0;
-	margin: 10px 10px;
-}
-
-.title {
-	position: absolute;
-	top: 0;
-	left: 64px;
-	right: 128px;
-	margin: 12px 0;
-	text-align: center;
-    font-weight: bold;
-	font-size: 30px;
-	color: #eeb211;
-}
-
-.title:hover {
-	text-decoration: none;
-}
-
-.post-button {
-	display: inline-block;
-	position: absolute;
-	top: 0;
-	right: 64px;
-	background: url('/img/plus.png') no-repeat;
-	background-size: cover; 
-	width: 30px; 
-	height: 30px;
-	border:0;
-	margin: 17px 17px;
-}
-
-.search-button {
-	display: inline-block;
-	position: absolute;
-	top: 0;
-	right: 0;
-	background: url('/img/search.png') no-repeat;
-	background-size: cover; 
-	width: 44px; 
-	height: 44px;
-	border:0;
-	margin: 10px 10px;
 }
 
 .btn-primary {

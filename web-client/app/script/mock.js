@@ -95,18 +95,17 @@ app.run(function($httpBackend) {
 		return [200, listings[id], {}];
 	});
 	
-	// Post a listing
+	// Create a listing
 	$httpBackend.whenPOST(/api\/listings$/).respond(function(method, url, data, headers) {
 		var user = userForToken(headers['X-SessionId']);
 		if (!user) {
 			return [401, null, {}];
 		}
 		
-		var owner = tokens[token];
 		var listing = angular.fromJson(data);
-
+        
 		listing.id = listings.length;
-		listing.owner = owner;
+		listing.owner = user.email;
 		
 		listings.push(listing);
 		

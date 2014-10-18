@@ -1,6 +1,6 @@
-<h2>Some form to post some things and such<h2>
-<input></input>
-<input></input>
-<input></input>
-<input></input>
-<button ui-sref="main.results" type="button" class="btn btn-primary btn-lg btn-block">Submit!</button>
+<input ng-model="title" placeholder="Title" class="col-xs-12"></input>
+<div>
+    Description
+    <textarea ng-model="description" class="col-xs-12"></textarea>
+</div>
+<button ng-click="submit()" class="btn btn-primary">Submit!</button>

@@ -43,7 +43,7 @@ app.factory('client', function($http, $q, model) {
 		return deferred.promise;
 	};
 	
-	function getItems() {
+	function getListings() {
 		var deferred = $q.defer();
 		
 		$http.get('/api/listings')
@@ -56,7 +56,7 @@ app.factory('client', function($http, $q, model) {
 		return deferred.promise;
 	};
 	
-	function getItem(item) {
+	function getListing(item) {
 		var deferred = $q.defer();
 		
 		$http.get('/api/listings/' + item)
@@ -69,12 +69,26 @@ app.factory('client', function($http, $q, model) {
 		return deferred.promise;
 	};
 	
+    function createListing(item) {
+        var deferred = $q.defer();
+		
+		$http.post('/api/listings', item)
+		.then(function(result) {
+			deferred.resolve(result.data);
+		}, function(error) {
+			deferred.reject(error);
+		});
+		
+		return deferred.promise;
+    };
+    
 	return {
 		signIn: signIn,
 		signOut: signOut,
 		changePassword: changePassword,
 		forgotPassword: forgotPassword,
-		getItems: getItems,
-		getItem: getItem
+		getListings: getListings,
+		getListing: getListing,
+        createListing: createListing,
 	};
 });

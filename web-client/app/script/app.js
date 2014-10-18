@@ -10,7 +10,7 @@ app.controller('ResultsController', function ($scope, $state, $stateParams, clie
 	$scope.query = $stateParams.query;
 	$scope.category = $stateParams.category;
 
-	var request = client.getItems();
+	var request = client.getListings();
 	request.then(function (items) {
 		$scope.items = items;
 	}, function (error) {
@@ -19,7 +19,7 @@ app.controller('ResultsController', function ($scope, $state, $stateParams, clie
 });
 
 app.controller('ListingController', function ($scope, $state, $stateParams, client) {
-	var request = client.getItem($stateParams.id);
+	var request = client.getListing($stateParams.id);
 	request.then(function (item) {
 		$scope.item = item;
 	}, function (error) {
@@ -44,6 +44,23 @@ app.controller('AccountController', function ($scope, $state, model, client) {
 		$state.go('signin');
 	};
 })
+
+app.controller('CreateListingController', function ($scope, $state, client) {
+    $scope.submit = function() {
+        var listing = {
+            title: $scope.title,
+            description: $scope.description
+        };
+        
+        var request = client.createListing(listing);
+        request.then(function() {
+            alert('success');
+            $state.go('main.listings');
+        }, function() {
+            $state.go('main.error');
+        });
+    };
+});
 
 app.controller('SignInController', function ($scope, $state, model, client) {	
 	function validateForm() {
@@ -171,6 +188,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
 	.state('main.post', {
 		url: "/post",
 		templateUrl: 'partials/main.post.html',
+        controller: 'CreateListingController'
 	});
 });
 
