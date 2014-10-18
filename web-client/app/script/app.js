@@ -1,5 +1,3 @@
-var app = angular.module('ThriftShopApp', ['ui.router', 'ngMockE2E', 'ngCookies']);
-
 app.controller('MainController', function ($scope) {
 	$scope.back = function () {
 		history.go(-1);
