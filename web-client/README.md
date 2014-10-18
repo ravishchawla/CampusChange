@@ -5,6 +5,7 @@
 #### Dependencies
 
 * [Node.js](http://nodejs.org)
+* [npm](https://www.npmjs.org)
 
 #### Installation
 
