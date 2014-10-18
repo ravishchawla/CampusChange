@@ -64,8 +64,53 @@ body {
 }
 
 /********************************************************************
+ Main
+********************************************************************/
+
+.back-button {
+	display: inline-block;
+	position: absolute;
+	top: 0;
+	left: 0;
+    fill: #eeb211;
+}
+
+.title {
+	position: absolute;
+	top: 0;
+	left: 64px;
+	right: 128px;
+	margin: 12px 0;
+	text-align: center;
+    font-weight: bold;
+	font-size: 30px;
+	color: #eeb211;
+}
+
+.title:hover {
+	text-decoration: none;
+}
+
+.post-button {
+	display: inline-block;
+	position: absolute;
+	top: 0;
+	right: 64px;
+    fill: #eeb211;
+}
+
+.search-button {
+	display: inline-block;
+	position: absolute;
+	top: 0;
+	right: 0;
+    fill: #eeb211;
+}
+
+/********************************************************************
 
 ********************************************************************/
+
 
 .footer {
 	color: grey;
