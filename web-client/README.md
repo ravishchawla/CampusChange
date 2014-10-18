@@ -15,6 +15,9 @@ $ npm install
 $ bower install
 ```
 
+##### Ubuntu Note
+The gulp and bower scripts use the ```node``` command to indirectly start ```nodejs```. But on Ubuntu ```node``` does something else. To fix change ```node``` to ```nodejs``` at the start of the gulp and bower scripts (probably in ```/usr/local/bin/```).
+
 #### Application Start
 
 ```sh
