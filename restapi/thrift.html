@@ -1,0 +1,52 @@
+<html>
+<head>
+<script src="jquery-2.1.1.min.js"></script>
+<script src="script.js"></script>
+</head>
+<body>
+
+<p id="responsedata"></p>
+
+<h2>Test reequest</h2>
+<form action="api/example" method="GET">
+<input type="submit">
+</form>
+
+<h2>Authorize for token</h2>
+<input type="button" value="send data" onClick="return authUser('lenovo@lenovo.com', 'huh');">
+
+<h2>Delete User</h2>
+<input type="button" value="delete user" onClick="return deleteUser('rchawla8', '53304ce6-0a60-40bb-82fa-df51b175ff2a');">
+
+<h2>Update User</h2>
+<input type="button" value="update password" onClick="return updateUser('whats', 'huh', 'e5297893-6944-49b0-918a-82af10718044');">
+
+<h2>Insert User</h2>
+<input type="button" value="insert user" onClick="return sendPostRequest('api/user/', 'email=lenovo@lenovo.com&password=howdy&fname=len&lname=ovo');">
+
+<h2>Insert Item</h2>
+<input type="text" placeholder="token" value="9e36a771-6dd2-4c17-99a7-38ecfec2d8d3" id="itemAddToken"><br>
+<input type="text" placeholder ="name" value="laptop" id="itemAddName"><br>
+<input type="text" placeholder = "category" value="electronics" id="itemAddCategory"><br>
+<input type="text" placeholder = "asking price" value="999" id="itemAddAskingPrice"><br>
+<input type="text" placeholder="description" value="lenovo style" id="itemAddDescription"><br>
+<input type="button" value="insert item" onClick="return addItem();">
+
+<h2>Get all items</h2>
+<input type="button" value="get all items" onClick="return getAllItems();">
+<h2>Get specific item</h2>
+<select id="itemsSelector">
+</select>
+<input type="button" value="get selected item" onClick="return getItem();">
+<input type="text" placeholder="token" value="9e36a771-6dd2-4c17-99a7-38ecfec2d8d3" id="itemUpToken"><br>
+<input type="text" placeholder = "category" value="consumer electronics" id="itemUpCategory"><br>
+<input type="text" placeholder = "asking price" value="1499" id="itemUpAskingPrice"><br>
+<input type="text" placeholder="description" value="dell style" id="itemUpDescription"><br>
+<input type="button" value="update selected item" onClick="return updateItem();">
+<input type="button" value="delete selected item" onClick="return deleteItem();">
+
+<br><br>
+<input type="text" placeholer="token" value="9e36a771-6dd2-4c17-99a7-38ecfec2d8d3" id="rootSessionID"><br>
+
+</body>
+</html>
