@@ -6,13 +6,13 @@ app.controller('MainController', function ($scope) {
 	}
 });
 
-app.controller('ResultsController', function ($scope, $state, $stateParams, client) {
+app.controller('ListingsController', function ($scope, $state, $stateParams, client) {
 	$scope.query = $stateParams.query;
 	$scope.category = $stateParams.category;
 
 	var request = client.getListings();
-	request.then(function (items) {
-		$scope.items = items;
+	request.then(function (listings) {
+		$scope.listings = listings;
 	}, function (error) {
 		$state.go('main.error');
 	});
@@ -174,7 +174,7 @@ app.config(function($stateProvider, $urlRouterProvider) {
 	.state('main.listings', {
 		url: '/listings?category',
 		templateUrl: 'partials/main.listings.html',
-		controller: 'ResultsController'
+		controller: 'ListingsController'
 	})
 	.state('main.listing', {
 		url: '/listings/{id}',
