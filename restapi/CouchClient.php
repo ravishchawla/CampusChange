@@ -144,12 +144,12 @@ class CouchDriver {
 			$response = CouchWrapper::getUserByOption($token, CouchWrapper::TOKEN);
 			if(!is_null($response)) {
 				$response = CouchWrapper::updateItem($id, $title, $askingPrice, $category, $description);
-				return $response;
+				return Response::sendStatus(200);
 			}
 
 		}
 		catch (Exception $e) {
-			return $e->getMessage();
+			return Response::sendStatus(500, $e->getMessage());
 		}
 	}
 
@@ -158,12 +158,12 @@ class CouchDriver {
 			$response = CouchWrapper::getUserByOption($token, CouchWrapper::TOKEN);
 			if(!is_null($response)) {
 				$response = CouchWrapper::deleteItem($id);
-				return $response;
+				return Response::sendStatus(200);
 			}
 
 		}
 		catch (Exception $e) {
-			return $e->getMessage();
+			return Response::sendStatus(500, $e->getMessage());
 		}
 	}
 }
