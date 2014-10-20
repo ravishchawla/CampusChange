@@ -1,8 +1,8 @@
 <?php
 include dirname(__FILE__) . '/AWS/vendor/autoload.php';
 define('PROFILE', 'rchawla8');
-define('ACCESS_ID', 'AKIAJBWHSSMUPS7W3X3A'); //TODO: DELETE
-define('ACCESS_SECRET', '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'); //TODO: DELETE
+define('ACCESS_ID', 'blah');
+define('ACCESS_SECRET', 'blahblah'); //TODO: DELETE
 define('REGION', 'us-east-1');
 define('USERS', 'users');
 define('ITEMS', 'items');

@@ -43,7 +43,7 @@ class ThriftAPI extends API
 			if(isset($data['password']) && isset($this->sessionID))
 				$return = CouchDriver::deleteUser($data['password'], $this->sessionID);
 			else
-				$return['401'] = 'Not Authorized';
+				$return['409'] = 'Not Authorized';
 		}
 		else if($this->method == 'PUT') {
 			if(isset($data['oldPassword']) && isset($data['newPassword']) && isset($this->sessionID))
