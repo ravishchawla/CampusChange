@@ -1,8 +1,8 @@
 <?php
 
-require_once dirname(__FILE__) . '/../couch\lib\couch.php';
-require_once dirname(__FILE__) . '/../couch\lib\couchClient.php';
-require_once dirname(__FILE__) . '/../couch\lib\couchDocument.php';
+require_once dirname(__FILE__) . '/../couch/lib/couch.php';
+require_once dirname(__FILE__) . '/../couch/lib/couchClient.php';
+require_once dirname(__FILE__) . '/../couch/lib/couchDocument.php';
 require_once('DatabaseWrapper.php');
 
 class CouchWrapper {
