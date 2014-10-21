@@ -9,7 +9,7 @@ require_once('utility.php');
 class CouchDriver {
 
 	private static $client = null;
-	private static $clientDirName = 'http://ec2-54-172-6-150.compute-1.amazonaws.com:5985/';
+	private static $clientDirName = 'http://localhost:5984/';
 	private static $clientDatabaseName = 'thrift_shop';
 
 	public function __construct() {
@@ -22,18 +22,18 @@ class CouchDriver {
 		try{
 
 			$response = CouchWrapper::getUserByOption($email, CouchWrapper::EMAIL);
-			if(isset($response['passwordhash'])){
-				$passwordhash = $response['passwordhash'];
+			if(isset($response[0]['passwordhash'])){
+				$passwordhash = $response[0]['passwordhash'];
 				$verified = Utility::verifyPassword($password, $passwordhash);
-				$verified = true;
+//				$verified = true;
 				if($verified == true) {
-					if(isset($response['token'])){
-						return $response['token'];
+					if(isset($response[0]['token'])){
+						return $response[0]['token'];
 					}
 					else {
 						$uuid = Utility::createV4Uid();
 						$updates = array('token' => $uuid);
-						CouchWrapper::updateUserWithAttr($response['id'], $response['rev'], $updates);
+						CouchWrapper::updateUserWithAttr($response[0]['id'], $response[0]['rev'], $updates);
 						return $uuid;
 					}
 				}
@@ -65,12 +65,12 @@ class CouchDriver {
 	public function deleteUser($password, $token){
 		try{
 			$response = CouchWrapper::getUserByOption($token, CouchWrapper::TOKEN);
-			if(isset($response['passwordhash'])){
-				$passwordhash = $response['passwordhash'];
+			if(isset($response[0]['passwordhash'])){
+				$passwordhash = $response[0]['passwordhash'];
 				$verified = Utility::verifyPassword($password, $passwordhash);
 				$verified = true;
 				if($verified == true) {
-					$response = CouchWrapper::deleteUser($response['id'], $response['rev']);
+					$response = CouchWrapper::deleteUser($response[0]['id'], $response[0]['rev']);
 					return $response;
 				}
 				else{
@@ -87,13 +87,13 @@ class CouchDriver {
 	public function changePassword($oldPassword, $newPassword, $token) {
 		try{
 			$response = CouchWrapper::getUserByOption($token, CouchWrapper::TOKEN);
-			if(isset($response['passwordhash'])){
-				$passwordhash = $response['passwordhash'];
+			if(isset($response[0]['passwordhash'])){
+				$passwordhash = $response[0]['passwordhash'];
 				$verified = Utility::verifyPassword($oldPassword, $passwordhash);
 				if($verified == true) {
 					$newPasswordHash = Utility::encrypt($newPassword);
 				//	$newPasswordHash = $newPassword;
-					$response = CouchWrapper::changePassword($response['id'], $newPasswordHash);
+					$response = CouchWrapper::changePassword($response[0]['id'], $newPasswordHash);
 					return $response;
 				}
 				else{

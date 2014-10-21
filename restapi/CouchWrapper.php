@@ -8,7 +8,7 @@ require_once('DatabaseWrapper.php');
 class CouchWrapper {
 
 	private static $client = null;
-	private static $clientDirName = 'http://ec2-54-172-6-150.compute-1.amazonaws.com:5985/';
+	private static $clientDirName = 'http://localhost:5984/';
 	private static $clientDatabaseName = 'thrift_shop';
 	private static $user;
 	private static $item;
