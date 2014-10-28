@@ -19,151 +19,276 @@ class CouchDriver {
 
 
 	public function authenticateUser($email, $password) {	
-		try{
+		$responseData = array();
 
+		try{
 			$response = CouchWrapper::getUserByOption($email, CouchWrapper::EMAIL);
-			if(isset($response[0]['passwordhash'])){
-				$passwordhash = $response[0]['passwordhash'];
+			
+			//$value = $response->rows[0]->value;
+			if(count($response->rows) === 0) {
+				$responseData['err'] = 401;
+				return $responseData;
+			}
+
+			
+			if(count($response->rows) !== 0) {
+			//if(isset($response->rows[0]->value->passwordhash)){ //value will always be there. 
+				$value = $response->rows[0]->value;
+				$passwordhash = $value->passwordhash;
 				$verified = Utility::verifyPassword($password, $passwordhash);
-//				$verified = true;
 				if($verified == true) {
-					if(isset($response[0]['token'])){
-						return $response[0]['token'];
+					if(isset($value->token)){
+						$responseData['token'] = $value->token;
 					}
 					else {
 						$uuid = Utility::createV4Uid();
 						$updates = array('token' => $uuid);
-						CouchWrapper::updateUserWithAttr($response[0]['id'], $response[0]['rev'], $updates);
-						return $uuid;
+						CouchWrapper::updateUserWithAttr($value->id, $value->rev, $updates);
+						$responseData['token'] = $uuid;
 					}
+				$responseData['err'] = 200;
 				}
 				else {
-					return 'Not Authorized';
+						$responseData['err'] = 401;
 				}
 			}
 			else {
-				echo '500 internal server error';
+						$respnseData['err'] = 500;
 			}
+			return $responseData;
 			
 		}
 
-		catch(Exception $e) {
-			if($e->getCode() == 404) {
-				return 'doc doesn\'t exist';
-			}
+		catch(Exception $e) {		
+			$respnseData['err'] = 500;
+			return $responseData;
 		}
 
 	}
 
 	public function insertUser($email, $password, $fname, $lname) {
-		$passwordhash = Utility::encrypt($password);
-		$response = CouchWrapper::insertUser($email, $passwordhash, $fname, $lname);
-		return $response;
+		$responseData = array();
+		try{
+			$users = CouchWrapper::getUserByOption($email, CouchWrapper::EMAIL);
+				if(count($users->rows) === 0) {
+					$passwordhash = Utility::encrypt($password);
+					$response = CouchWrapper::insertUser($email, $passwordhash, $fname, $lname);		
+					
+					if($response === true) {
+						$responseData['err'] = 200;
+					}
+					else {
+						throw new Exception('Server error');
+					}
+				}
+				else {
+					$responseData['err'] = 400;
+				}
+		}
+		catch(Exception $e) {
+			$responseData['err'] = 500;
+		}
+		return $responseData;
 
 	}
 
 	public function deleteUser($password, $token){
+		$return = array();
 		try{
 			$response = CouchWrapper::getUserByOption($token, CouchWrapper::TOKEN);
-			if(isset($response[0]['passwordhash'])){
-				$passwordhash = $response[0]['passwordhash'];
-				$verified = Utility::verifyPassword($password, $passwordhash);
-				$verified = true;
-				if($verified == true) {
-					$response = CouchWrapper::deleteUser($response[0]['id'], $response[0]['rev']);
-					return $response;
-				}
-				else{
-					return 'Not Authorized';
+			if(count($response->rows) !== 0  ) {
+				$value = $response->rows[0]->value;
+				if(isset($value->passwordhash)){
+					$passwordhash = $value->passwordhash;
+					$verified = Utility::verifyPassword($password, $passwordhash);
+					if($verified == true) {
+						$response = CouchWrapper::deleteUser($value->id, $value->rev);
+						if($response === true) {
+							$return['err'] = 200;
+							return $return;
+						}
+						else {
+							throw new Exception('server error');
+						}
+					}
 				}
 			}
+			
+			$return['err'] = 401;
+			return $return;
 		}
 		catch(Exception $e){
-			return $e->getMessage();
+			$return['err'] = 500;
+			return $return;
 		}
 
 	}
 
 	public function changePassword($oldPassword, $newPassword, $token) {
+		$responseData = array();
 		try{
 			$response = CouchWrapper::getUserByOption($token, CouchWrapper::TOKEN);
-			if(isset($response[0]['passwordhash'])){
-				$passwordhash = $response[0]['passwordhash'];
+			if(count($response->rows) !== 0){
+				$value = $response->rows[0]->value;
+				$passwordhash = $value->passwordhash;
 				$verified = Utility::verifyPassword($oldPassword, $passwordhash);
 				if($verified == true) {
 					$newPasswordHash = Utility::encrypt($newPassword);
-				//	$newPasswordHash = $newPassword;
-					$response = CouchWrapper::changePassword($response[0]['id'], $newPasswordHash);
-					return $response;
-				}
-				else{
-					return 'Not Authorized';
+					$response = CouchWrapper::changePassword($value->id, $newPasswordHash);
+					
+					if($response === true) {
+							$responseData['err'] = 200;
+							return $responseData;	
+					}
+					else {
+						throw new Exception('server error');
+					}	
 				}
 			}
-			else {
-				return 'Not Authorized';
-			}
+				$responseData['err'] = 401;	
+				return $responseData;
+			
 		}
 		catch(Exception $e){
-			return $e->getMessage();
+			$responseData['err'] = 500;
+			return $responseData;
 		}
 	}
 
-	public function getAllListings($token) {
-		$response = CouchWrapper::getUserByOption($token, CouchWrapper::TOKEN);
-		if(!is_null($response)) {
+	public function getAllListings($token, $params) {
+		$responseData = array();
+		try{
+			$response = CouchWrapper::getUserByOption($token, CouchWrapper::TOKEN);
+			if(count($response->rows) !== 0) {
+		
 			$response = CouchWrapper::getAllItems();
-			return $response;
-		}
-	}
-
-	public function getListing($id, $token) {
-		$response = CouchWrapper::getUserByOption($token, CouchWrapper::TOKEN);
-		if(!is_null($response)) {
-			$response = CouchWrapper::getItemByOption($id, CouchWrapper::ID);
-			return $response;
-		}
-	}
-
-	public function insertItem($title, $askingPrice, $category, $description, $token) {
-		try {
-			$response = CouchWrapper::getUserByOption($token, CouchWrapper::TOKEN);
-			if(!is_null($response)) {
-				$id = $response['id'];
-				$response = CouchWrapper::insertItem($id, $title, $askingPrice, $category, $description);
-				return $response;
-			}
-		}
-		catch (Exception $e) {
-			return $e->getMessage();
-		}
-	}
-
-	public function updateItem($id, $title, $askingPrice, $category, $description, $token) {
-		try {
-			$response = CouchWrapper::getUserByOption($token, CouchWrapper::TOKEN);
-			if(!is_null($response)) {
-				$response = CouchWrapper::updateItem($id, $title, $askingPrice, $category, $description);
-				return Response::sendStatus(200);
+			if($response !== false) {
+				$responseData = $response;
+				$responseData['err'] = 200;	
+				return $responseData;
 			}
 
+			$responseData['err'] = 401;
 		}
-		catch (Exception $e) {
-			return Response::sendStatus(500, $e->getMessage());
+	}
+		catch(Exception $e) {
+			$responseData['err'] = 500;
+		}
+
+		return $responseData;
+	}
+
+	public function getListing($token, $listingID) {
+		$responseData = array();
+		try{
+			$response = CouchWrapper::getUserByOption($token, CouchWrapper::TOKEN);
+			if(count($response->rows) !== 0) {
+				$value = $response->rows[0]->value;
+				$response = CouchWrapper::getItemByOption($listingID, CouchWrapper::cleanID);
+				if($response !== false) {
+					if(count($response->rows) !== 0) {
+						$value = $response->rows[0]->value;
+						$responseData[0] = $value;
+						$responseData['err'] = 200;
+					}
+					else {
+						$responseData['err'] = 400;
+					}
+					return $responseData;
+				}
+			}
+
+			$responseData['err'] = 401;
+			return $responseData;
+		}
+		catch(Exception $e) {
+			$responseData['err'] = 500;
 		}
 	}
 
-	public function deleteItem($id, $token) {
+	public function insertItem($title, $askingPrice, $category, $description, $images, $token) {
+		$responseData = array();
 		try {
 			$response = CouchWrapper::getUserByOption($token, CouchWrapper::TOKEN);
-			if(!is_null($response)) {
-				$response = CouchWrapper::deleteItem($id);
-				return Response::sendStatus(200);
+			if(count($response->rows) !== 0) {
+				$value = $response->rows[0]->value;
+				$id = $value->id;
+				$email = $value->email;
+				$response = CouchWrapper::insertItem($id, $email, $title, $askingPrice, $category, $description, $images);
+				
+				if($response === true) {
+					$responseData['err'] = 200;
+					return $responseData;
+				}
+				else {
+					throw new Exception('Server error');
+				}
 			}
+
+			$responseData['err'] = 401;
+			return $responseData;
+
 
 		}
 		catch (Exception $e) {
-			return Response::sendStatus(500, $e->getMessage());
+				$responseData['err'] = 500;
+		}
+
+		return $responseData;
+	}
+
+	public function updateItem($id, $title, $askingPrice, $category, $description, $images, $token) {
+		$responseData = array();
+		try {
+			$response = CouchWrapper::getUserByOption($token, CouchWrapper::TOKEN);
+			if(count($response->rows) !== 0) {
+				$response = CouchWrapper::updateItem($id, $title, $askingPrice, $category, $description, $images);
+				if($response === true) {
+					$responseData['err'] = 200;
+					return $responseData;
+				}
+				else if($response === false) {
+					$responseData['err'] = 400;
+					return $responseData;
+				}
+				else if($responseData === null) {
+					throw new Exception('Server error');
+				}
+			}
+
+			$responseData['err'] = 401;
+			return $responseData;
+
+		}
+		catch (Exception $e) {
+			$responseData['err'] = 500;
+			return $responseData;
+		}
+	}
+
+	public function deleteItem($token, $listingID) {
+		$responseData = array();
+		try {
+			$response = CouchWrapper::getUserByOption($token, CouchWrapper::TOKEN);
+			if(count($response->rows) !== 0){
+				$response = CouchWrapper::deleteItem($listingID);
+				if($response === true) {
+					$responseData['err'] = 200;
+					return $responseData;
+				}
+				else {
+					$responseData['err'] = 400;
+					return $responseData;
+				}
+
+			}
+			$responseData['err'] = 401;
+			return $responseData;
+
+		}
+		catch (Exception $e) {
+			$responseData['err'] = 500;
+			return $responseData;
 		}
 	}
 }

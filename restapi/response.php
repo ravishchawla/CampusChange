@@ -21,9 +21,10 @@ class Response {
 				break;
 			case 500:
 				$response['500'] = 'Internal Server Error';
-				$response['error'] = $message;
+				break;
 
 		}
+		$response['error'] = $message;
 		return $response;
 
 	}
@@ -36,4 +37,17 @@ class Response {
 		else 
 			return self::createResponse(500, 'Invalid Status code error');
 	}
+
+	
+function writeResponse($status, $return) {
+	if($status == 200) {
+		header("Content-Type: application/json");
+		echo json_encode($response);		
+	}
+	else {
+		$app->halt($status);
+	}	
+}
+
+
 }

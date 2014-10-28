@@ -13,6 +13,7 @@ class CouchWrapper {
 	private static $user;
 	private static $item;
 	const ID = 'byID';
+	const cleanID = 'cleanById';
 	const EMAIL = 'byEmail';
 	const TOKEN = 'byToken';
 	const USERS = 'users';
@@ -31,13 +32,7 @@ class CouchWrapper {
 
 	public function insertUser($email, $passwordhash, $fname = null, $lname = null) {
 		try{
-			$user = self::getUserByOption($email, self::EMAIL);
-			if(!is_null($user)) {
-				$response = 'user alreaddy exists';
-				return $response;
-			}
 			
-
 			self::$user = new stdClass();
 			self::$user->type = 'user';
 			self::$user->email = $email;
@@ -50,21 +45,34 @@ class CouchWrapper {
 			}
 
 			
-			$response = self::$client->storeDoc(self::$user);
-			return $response;
+			$clientResponse = self::$client->storeDoc(self::$user);
+			if($clientResponse->ok == 'true') {
+				return true;			
+			}
 		}
 		catch(Exception $e) {
-			echo $e->getMessage();	
+			return false;
 		}
+		return false;
 	}
 
 	public function getUserByOption($searchKey, $option) {
 		try{
 			$user = self::$client->key($searchKey)->getView('users', $option);
-			return self::cleanDatabaseObject($user);
+			return $user;
 		}
 		catch(Exception $e) {
-			echo $e->getMessage();
+			return null;
+		}
+	}
+
+	public function countUsersByOption($searchKey, $option) {
+		try {
+			$user = self::$client->key($searchKey)->getView('users', $option);
+			$response = (array)$user;
+			return count($response['rows']);
+		}
+		catch(Exception $e) {
 			return null;
 		}
 	}
@@ -73,14 +81,14 @@ class CouchWrapper {
 	public function getItemByOption($searchKey, $option) {
 		try{
 			$item = self::$client->key($searchKey)->getView(self::ITEMS, $option);
-			$var = self::cleanDatabaseObject($item);
-			return $var;
+			return $item;
 		}
 		catch(Exception $e) {
-			echo $e->getMessage();
-			return null;
+			return false;
 		}
 	}
+
+
 
 	private function cleanDatabaseObject($object) {
 			$response = (array)$object;
@@ -117,11 +125,10 @@ class CouchWrapper {
 	public function deleteUser($docID, $docRev) {
 		try{
 			$response = self::$client->deleteDoc($docID, $docRev);
-			return $response;
+			return true;
 		}
 		catch (Exception $e) {
-			echo $e->getMessage();
-			return;
+			return false;
 		}
 	}
 
@@ -130,71 +137,97 @@ class CouchWrapper {
 			self::$user = self::$client->getDoc($docID);
 			self::$user->passwordhash = $newPasswordHash;
 			$response = self::$client->storeDoc(self::$user);
-			return $response;
+			
+			if($response->ok === true) {
+				return true;
+			}
+
 		}
 		catch (Exception $e) {
-			echo $e->getMessage();
-			return;
+			return false;
 		}
-
+		return false;
 	}
 
 	public function getAllItems() {
+		$responseData = array();
 		try {
-			$response = self::$client->getView(self::ITEMS, self::ID);
-			return self::cleanDatabaseObject($response);
+			$response = self::$client->getView(self::ITEMS, self::cleanID);
+			foreach($response->rows as $jsonElement) {
+				array_push($responseData, $jsonElement->value);
+			}
+			return $responseData;
 		}
 		catch (Exception $e) {
-			echo $e->getMessage();
-			return;
+			return false;
 		}
 	}
 
-	public function insertItem($userid, $title, $askingPrice, $category, $description) {
+	public function insertItem($userid, $email, $title, $askingPrice, $category, $description, $images) {
 		try {
 			self::$item = new stdClass();
 			self::$item->type = 'item';
 			self::$item->userID = $userid;
+			self::$item->userEmail = $email;
 			self::$item->title = $title;
 			self::$item->askingPrice = $askingPrice;
 			self::$item->category = $category;
 			self::$item->description = $description;
+			self::$item->imageUrls = $images;
 			$response = self::$client->storeDoc(self::$item);			
-			return $response;
+			
+			if($response->ok === true) {
+				return true;
+			}
+			else {
+				return false;
+			}
+
 
 		}
 		catch(Exception $e) {
-			echo $e->getMessage();
-			return null;
+			
+			return false;
 		}
 	}
 
-	public function updateItem($id, $title, $askingPrice, $category, $description) {
+	public function updateItem($id, $title, $askingPrice, $category, $description, $images) {
 		try {
 			$item = self::$client->getDoc($id);
-			if(!is_null($title)) $item->title = $title;
-			if(!is_null($askingPrice)) $item->askingPrice = $askingPrice;
-			if(!is_null($category)) $item->category = $category;
-			if(!is_null($description)) $item->description = $description;
-			$response = self::$client->storeDoc($item);
-			return $response;
+			if($item !== false) {
+				if(!is_null($title)) $item->title = $title;
+				if(!is_null($askingPrice)) $item->askingPrice = $askingPrice;
+				if(!is_null($category)) $item->category = $category;
+				if(!is_null($description)) $item->description = $description;
+				if(!is_null($description)) $item->imageUrls = $images;
+				$response = self::$client->storeDoc($item);
+				
+				if($response->ok === true) {
+					return true;
+				}
+			}
+			return false;
 		}
 
 		catch(Exception $e) {
-			echo $e->getMessage();
-			return null;
+			return false; 
 		}
 	}
 
 	public function deleteItem($id) {
 		try {
 			$item = self::$client->getDoc($id);
-			$rev = $item->_rev;
-			$response = self::$client->deleteDoc($id, $rev);
-			return $response;
+			if($item !== false) {
+				$rev = $item->_rev;
+				$response = self::$client->deleteDoc($id, $rev);	
+
+				if($response->ok === true) {
+					return true;
+				}
+			}
+			return false;
 		}
 		catch(Exception $e) {
-			echo $e->getMessage();
 			return null;
 		}
 	}
