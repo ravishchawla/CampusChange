@@ -114,9 +114,6 @@ $app->get('/api/listings', function() {
 	$return = CouchDriver::getAllListings($sessionID, $params);
 	$status = array_pop($return);
 
-	
-	
-
 	writeResponse($status, $return);
 
 });
@@ -178,5 +175,35 @@ $app->delete('/api/listings/:listingID', function($listingID) {
 	writeResponse($status, $return);
 
 });
+
+$app->post('/api/replies/:listingID', function($listingID) {
+	$message = getJsonData();
+	$sessionID = getSessionID();
+
+
+	if(isset($message->text, $message->dateTime)) {
+		$return = CouchDriver::insertReply($sessionID, $listingID, $message->text, $message->dateTime);
+		$status = array_pop($return);
+	}
+	else {
+		$status = 400;
+	}
+
+	writeResponse($status, $return);
+
+
+
+});
+
+$app->get('/api/replies/:listingID', function($listingID) {
+	$sessionID = getSessionID();
+
+	$return = CouchDriver::getReplies($sessionID, $listingID);
+	$status = array_pop($return);
+
+	writeResponse($status, $return);
+});
+
+
 
 $app->run();

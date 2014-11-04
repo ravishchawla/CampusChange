@@ -14,10 +14,13 @@ class CouchWrapper {
 	private static $item;
 	const ID = 'byID';
 	const cleanID = 'cleanById';
+	const CATEGORY = "byCategory";
+	const LISTINGID = 'byListingID';
 	const EMAIL = 'byEmail';
 	const TOKEN = 'byToken';
 	const USERS = 'users';
 	const ITEMS = 'items';
+	const REPLIES = 'replies';
 
 
 	public function __construct() {
@@ -149,12 +152,22 @@ class CouchWrapper {
 		return false;
 	}
 
-	public function getAllItems() {
+	public function getAllItems($params) {
 		$responseData = array();
 		try {
-			$response = self::$client->getView(self::ITEMS, self::cleanID);
+			if(isset($params['category']))
+				self::$client->key($params['category']);
+			
+				$response = self::$client->getView(self::ITEMS, self::CATEGORY);
+			
+			if(isset($params['query']))
+				$query = $params['query'];
+			else 
+				$query = false;
+
 			foreach($response->rows as $jsonElement) {
-				array_push($responseData, $jsonElement->value);
+				if(($query === false) || ($query !== false && strpos($jsonElement->value->title, $query) !== false))
+					array_push($responseData, $jsonElement->value);
 			}
 			return $responseData;
 		}
@@ -174,6 +187,7 @@ class CouchWrapper {
 			self::$item->category = $category;
 			self::$item->description = $description;
 			self::$item->imageUrls = $images;
+			self::$item->replies = 0;
 			$response = self::$client->storeDoc(self::$item);			
 			
 			if($response->ok === true) {
@@ -229,6 +243,68 @@ class CouchWrapper {
 		}
 		catch(Exception $e) {
 			return null;
+		}
+	}
+
+	public function insertReply($listingID, $text, $dateTime) {
+			try {
+			$reply = new stdClass();
+			$reply->type = 'reply';
+			$reply->listingID = $listingID;
+			$reply->text = $text;
+			$reply->dateTime = $dateTime;
+			$response = self::$client->storeDoc($reply);			
+			
+			if($response->ok === true) {
+				return true;
+			}
+			else {
+				return false;
+			}
+
+
+		}
+		catch(Exception $e) {
+			
+			return false;
+		}
+	}
+
+	public function updateReplyCount($listingID) {
+		try {
+			$reply = self::$client->getDoc($listingID);
+			if($reply !== false) {
+				if(isset($reply->replies))
+					$reply->replies = $reply->replies + 1;
+				else 
+					$reply->replies = 1;
+
+				$response = self::$client->storeDoc($reply);
+
+				if($response->ok === true) {
+					return true;
+				}
+			}
+			return false;
+		}
+
+		catch(Exception $e) {
+			return false; 
+		}
+	}
+
+	public function getReplies($listingID) {
+		$responseData = array();
+		try {
+
+			$response = self::$client->key($listingID)->getView(self::REPLIES, self::LISTINGID);
+			foreach($response->rows as $jsonElement) {
+				array_push($responseData, $jsonElement->value);
+			}
+			return $responseData;
+		}
+		catch(Exception $e) {
+			return false;
 		}
 	}
 }

@@ -161,9 +161,13 @@ class CouchDriver {
 			$response = CouchWrapper::getUserByOption($token, CouchWrapper::TOKEN);
 			if(count($response->rows) !== 0) {
 		
-			$response = CouchWrapper::getAllItems();
+			$response = CouchWrapper::getAllItems($params);
 			if($response !== false) {
-				$responseData = $response;
+				if(isset($params['start'], $params['stop']))
+					$responseData = array_slice($response, $params['start'], $params['stop'] - $params['start'], true);
+				else 
+					$responseData = $response;
+				
 				$responseData['err'] = 200;	
 				return $responseData;
 			}
@@ -287,6 +291,60 @@ class CouchDriver {
 
 		}
 		catch (Exception $e) {
+			$responseData['err'] = 500;
+			return $responseData;
+		}
+	}
+
+	public function insertReply($token, $listingID, $text, $dateTime) {
+		$responseData = array();
+		try {
+			$response = CouchWrapper::getUserByOption($token, CouchWrapper::TOKEN);
+			if(count($response->rows) !== 0) {
+				$response = CouchWrapper::getItemByOption($listingID, CouchWrapper::ID);
+				if(count($response->rows) !== 0) {
+					$response = CouchWrapper::insertReply($listingID, $text, $dateTime);
+					$response = ($response && CouchWrapper::updateReplyCount($listingID));
+					
+					if($response === true) {
+						$responseData['err'] = 200;
+					}
+				}
+				else {
+					$responseData['err'] = 400;
+				}
+			}
+			else {
+				$responseData['err'] = 401;
+			}
+
+			return $responseData;
+		}
+
+		catch(Exception $e) {
+			$responseData['err'] = 500;
+			return $responseData;
+		}
+	}
+
+	public function getReplies($token, $listingID) {
+		$responseData = array();
+		try {
+			$response = CouchWrapper::getUserByOption($token, CouchWrapper::TOKEN);
+
+			if(count($response->rows) !== 0) {
+				$response = CouchWrapper::getReplies($listingID);
+				if($response !== false) {
+					$responseData = $response;
+					$responseData['err'] = 200;
+				}
+			}
+			else {
+				$responseData['err'] = 401;
+			}
+			return $responseData;
+		}
+		catch(Exception $e) {
 			$responseData['err'] = 500;
 			return $responseData;
 		}
