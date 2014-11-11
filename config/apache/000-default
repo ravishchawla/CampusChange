@@ -1,17 +1,16 @@
 <VirtualHost *:80>
 	DocumentRoot "/home/ubuntu/TBD-GTThriftShop/restapi"
-	RewriteEngine On
-	
+
     <Directory "/home/ubuntu/TBD-GTThriftShop/restapi">
 		Order allow,deny
 		Allow from all
 		AllowOverride All
 		Require all granted
-    </Directory>
-	RewriteEngine On	
+	</Directory>
+	
+	ProxyPass /api !
+	Alias /api /home/ubuntu/TBD-GTThriftShop/restapi
 	ProxyPass http://localhost:8000/
 	ProxyPassReverse http://localhost:8000/
-        RewriteCond %{REQUEST_FILENAME} !-f
-        RewriteCond %{REQUEST_FILENAME} !-d
-        RewriteRule (.*)$ /home/ubuntu/TBD-GTThriftShop/restapi/index.php/$1 [NC,L]
+
 </VirtualHost>

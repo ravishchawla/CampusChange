@@ -36,7 +36,8 @@ function getSessionID() {
 	}
 }
 
-$app->get('/hello/:name', function($name){
+
+$app->get('/api/hello/:name', function($name){
 	echo "Hello, $name";
 });
 
@@ -202,6 +203,19 @@ $app->get('/api/replies/:listingID', function($listingID) {
 	$status = array_pop($return);
 
 	writeResponse($status, $return);
+});
+
+$app->notFound(function () use ($app) {
+
+        // build response
+        $response = array(
+            'type' => 'not_found',
+            'message' => 'The requested resource does not exist.'
+        );
+
+       // output response
+       $app->halt(404, json_encode($response));
+
 });
 
 
