@@ -19,13 +19,13 @@ app.controller('ListingsController', function ($scope, $state, $stateParams, cli
 app.controller('ListingController', function ($scope, $state, $stateParams, client) {
 	var request = client.getListing($stateParams.id);
 	request.then(function (item) {
-		$scope.item = item;
+		$scope.item = item[0];
 	}, function (error) {
 		$state.go('main.error');
 	});
     
 	var replies = client.getReplies($stateParams.id);
-	request.then(function (replies) {
+	replies.then(function (replies) {
 		$scope.replies = replies;
 	}, function (error) {
 		$state.go('main.error');
