@@ -83,7 +83,7 @@ app.controller('SignInController', function ($scope, $state, model, client) {
         }
         var names = name.split(" ");
 		var signup = client.signUp($scope.email, $scope.password, names[0], names[1]);
-		auth.then(function () {
+		signup.then(function () {
             // attempt to sign in
     		var auth = client.signIn($scope.email, $scope.password);
     		auth.then(function (token) {
