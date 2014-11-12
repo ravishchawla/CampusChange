@@ -86,6 +86,19 @@ app.factory('client', function($http, $q, model) {
 		return deferred.promise;
 	};
 	
+	function getReplies(item) {
+		var deferred = $q.defer();
+		
+		$http.get('/api/replies/' + item)
+		.then(function(result) {
+			deferred.resolve(result.data);
+		}, function(error) {
+			deferred.reject(error);
+		});
+		
+		return deferred.promise;
+	};
+    
     function createListing(item) {
         var deferred = $q.defer();
 		

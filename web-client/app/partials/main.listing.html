@@ -1,3 +1,13 @@
 <h1> {{item.title}} </h1>
 <a><h3> By {{item.owner}} <h3></a>
 {{item.description}}
+
+<div ng-repeat="reply in replys">
+	{{reply}}
+</div>
+
+<div>
+    Add a reply
+    <textarea ng-model="reply" class="col-xs-12"></textarea>
+</div>
+<button ng-click="submit()" class="btn btn-primary">Post!</button>

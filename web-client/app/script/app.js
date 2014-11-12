@@ -23,6 +23,13 @@ app.controller('ListingController', function ($scope, $state, $stateParams, clie
 	}, function (error) {
 		$state.go('main.error');
 	});
+    
+	var replies = client.getListing($stateParams.id);
+	request.then(function (replies) {
+		$scope.replies = replies;
+	}, function (error) {
+		$state.go('main.error');
+	});
 });
 
 app.controller('AccountController', function ($scope, $state, model, client) {
