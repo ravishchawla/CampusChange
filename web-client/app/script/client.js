@@ -14,6 +14,23 @@ app.factory('client', function($http, $q, model) {
 		return deferred.promise;
 	};
 	
+	function signUp(email, password, first, last) {
+		var deferred = $q.defer();
+		
+		$http.post('/api/user', {
+			email: email,
+			password: password,
+            fname: first,
+            lname: last
+		}).then(function (result) {
+			deferred.resolve(result.data);
+		}, function(error) {
+			deferred.reject(error);
+		});
+		
+		return deferred.promise;
+	};
+    
 	function signOut() {
 		// TODO: need an actual implementation of this
 		var deferred = $q.defer();
@@ -84,6 +101,7 @@ app.factory('client', function($http, $q, model) {
     
 	return {
 		signIn: signIn,
+        signUp: signUp,
 		signOut: signOut,
 		changePassword: changePassword,
 		forgotPassword: forgotPassword,

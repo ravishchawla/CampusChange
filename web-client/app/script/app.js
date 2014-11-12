@@ -76,7 +76,25 @@ app.controller('SignInController', function ($scope, $state, model, client) {
 	$scope.signUp = function () {
 		if (!validateForm()) return;
 		
-		alert('sign up: not implemented');
+        var name = $scope.name;
+        if (!name) {
+            alert("Name required");
+            return;
+        }
+        var names = name.split(" ");
+		var signup = client.signUp($scope.email, $scope.password, names[0], names[1]);
+		auth.then(function () {
+            // attempt to sign in
+    		var auth = client.signIn($scope.email, $scope.password);
+    		auth.then(function (token) {
+    			model.signIn($scope.email, token);
+    			$state.go('main.categories');
+    		}, function (error) {
+    			alert('Something has gone wrong. Please try again.');
+    		});
+		}, function (error) {
+			alert('Something has gone wrong. Please try again.');
+		});
 	};
 	
 	$scope.signIn = function() {

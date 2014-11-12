@@ -144,6 +144,8 @@ body {
 }
 
 .btn-primary {
+    margin: 2px;
+    width: 100%;
     border-radius: 0;
     background-color: #000000;
     color: white;

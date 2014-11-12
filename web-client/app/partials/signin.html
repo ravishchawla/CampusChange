@@ -14,8 +14,13 @@
 				<input ng-model="password" type="password" class="form-control square-top" placeholder="Password" required>
 			</div>
 			<div class="form-submit">
-				<button ng-click="signUp()" type="button" class="col-xs-6 btn btn-lg btn-primary square-right">Sign Up</button>
-				<button ng-click="signIn()" type="button" class="col-xs-6 btn btn-lg btn-primary square-left">Sign in</button>
+				<button ng-click="signIn()" type="button" class="col-xs-12 btn btn-lg btn-primary">Sign in</button>
+			</div>
+			<div>
+				<input ng-model="name" type="text" class="form-control square-top square-bottom" placeholder="Name">
+			</div>
+			<div class="form-submit">
+				<button ng-click="signUp()" type="button" class="btn btn-lg btn-primary">Sign Up</button>
 			</div>
 			<a>
 				<button ng-click="forgotPassword()" type="button" class="col-xs-12 btn btn-lg btn-link">Forgot password?</button>
