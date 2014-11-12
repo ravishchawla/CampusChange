@@ -24,20 +24,26 @@ app.controller('ListingController', function ($scope, $state, $stateParams, clie
 		$state.go('main.error');
 	});
     
-	var replies = client.getReplies($stateParams.id);
-	replies.then(function (replies) {
-		$scope.replies = replies;
-	}, function (error) {
-		$state.go('main.error');
-	});
+    function refresh() {
+    	var replies = client.getReplies($stateParams.id);
+    	replies.then(function (replies) {
+    		$scope.replies = replies;
+    	}, function (error) {
+    		$state.go('main.error');
+    	});
+    }
     
 	$scope.submit = function () {
     	var reply = client.postReply($stateParams.id, $scope.reply);
     	reply.then(function (replies) {
+            $scope.reply = "";
+            refresh();
     	}, function (error) {
     		alert("Something has gone wrong. Please try again");
     	});
 	};
+    
+    refresh();
 });
 
 app.controller('AccountController', function ($scope, $state, model, client) {
