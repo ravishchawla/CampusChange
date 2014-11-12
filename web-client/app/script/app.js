@@ -30,6 +30,14 @@ app.controller('ListingController', function ($scope, $state, $stateParams, clie
 	}, function (error) {
 		$state.go('main.error');
 	});
+    
+	$scope.submit = function () {
+    	var reply = client.postReply($stateParams.id, $scope.reply);
+    	reply.then(function (replies) {
+    	}, function (error) {
+    		alert("Something has gone wrong. Please try again");
+    	});
+	};
 });
 
 app.controller('AccountController', function ($scope, $state, model, client) {

@@ -99,6 +99,22 @@ app.factory('client', function($http, $q, model) {
 		return deferred.promise;
 	};
     
+	function postReply(item, text) {
+		var deferred = $q.defer();
+		
+		$http.post('/api/replies/' + item, {
+			text: text,
+            dateTime: Date.now()
+		})
+		.then(function() {
+			deferred.resolve();
+		}, function(error) {
+			deferred.reject(error);
+		});
+		
+		return deferred.promise;
+	};
+    
     function createListing(item) {
         var deferred = $q.defer();
 		
