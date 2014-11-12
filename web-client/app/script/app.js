@@ -24,7 +24,7 @@ app.controller('ListingController', function ($scope, $state, $stateParams, clie
 		$state.go('main.error');
 	});
     
-	var replies = client.getListing($stateParams.id);
+	var replies = client.getReplies($stateParams.id);
 	request.then(function (replies) {
 		$scope.replies = replies;
 	}, function (error) {
