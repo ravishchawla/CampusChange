@@ -137,6 +137,7 @@ app.factory('client', function($http, $q, model) {
 		getListings: getListings,
 		getListing: getListing,
         getReplies: getReplies,
+        postReply: postReply,
         createListing: createListing,
 	};
 });
