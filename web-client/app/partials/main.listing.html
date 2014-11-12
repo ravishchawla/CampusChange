@@ -2,8 +2,9 @@
 <a><h3> By {{item.owner}} <h3></a>
 {{item.description}}
 
-<div ng-repeat="reply in replys">
+<div ng-repeat="reply in replies">
 	{{reply.text}}
+    <div style="color: grey">at {{reply.dateTime}}</div>
 </div>
 
 <div>
