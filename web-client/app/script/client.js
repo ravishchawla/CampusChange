@@ -120,6 +120,7 @@ app.factory('client', function($http, $q, model) {
 		forgotPassword: forgotPassword,
 		getListings: getListings,
 		getListing: getListing,
+        getReplies: getReplies,
         createListing: createListing,
 	};
 });
