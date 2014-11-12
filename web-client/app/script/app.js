@@ -87,7 +87,7 @@ app.controller('SignInController', function ($scope, $state, model, client) {
             // attempt to sign in
     		var auth = client.signIn($scope.email, $scope.password);
     		auth.then(function (token) {
-    			model.signIn($scope.email, token);
+    			model.signIn($scope.email, token.token);
     			$state.go('main.categories');
     		}, function (error) {
     			alert('Something has gone wrong. Please try again.');
@@ -102,7 +102,7 @@ app.controller('SignInController', function ($scope, $state, model, client) {
 		
 		var auth = client.signIn($scope.email, $scope.password);
 		auth.then(function (token) {
-			model.signIn($scope.email, token);
+			model.signIn($scope.email, token.token);
 			$state.go('main.categories');
 		}, function (error) {
 			alert('Invalid Username/Password');
