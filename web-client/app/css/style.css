@@ -35,7 +35,7 @@ body {
 ********************************************************************/
 
 .splash {
-	background: url("/img/splash.jpg");
+    background-color: grey;
     background-position: center; 
 	position: absolute;
 	height: 100%;
@@ -44,7 +44,7 @@ body {
 }
 
 .form-signup {
-	max-width: 330px;
+	max-width: 340px;
 	padding: 15px;
 	margin: 10vh auto;
 	color: black;
@@ -75,7 +75,7 @@ body {
 	width: 44px; 
 	height: 44px;
     margin: 10px;
-    fill: #eeb211;
+    fill: white;
 }
 
 .title {
@@ -87,7 +87,7 @@ body {
 	text-align: center;
     font-weight: bold;
 	font-size: 30px;
-	color: #eeb211;
+	color: white;
 }
 
 .title:hover {
@@ -102,7 +102,7 @@ body {
     width: 44px;
 	height: 44px;
     margin: 10px;
-    fill: #eeb211;
+    fill: white;
 }
 
 .search-button {
@@ -113,7 +113,7 @@ body {
     width: 44px; 
 	height: 44px;
     margin: 10px;
-    fill: #eeb211;
+    fill: white;
 }
 
 /********************************************************************
@@ -133,10 +133,10 @@ body {
 	right: 0;
 	z-index: 10;
 	background-color: #000000;
-    color: #eeb211;
+    color: white;
     font-weight: bold;
 	height: 64px;
-    border-bottom: 5px solid #eeb211;
+    border-bottom: 5px solid grey;
 }
 
 .app-content {
@@ -144,11 +144,10 @@ body {
 }
 
 .btn-primary {
-    margin: 2px;
     border-radius: 0;
     background-color: #000000;
-    color: #eeb211;
-    border: 1px solid #eeb211;
+    color: white;
+    border: 1px solid white;
 }
 
 .categories-container {
