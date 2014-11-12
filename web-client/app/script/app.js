@@ -68,7 +68,10 @@ app.controller('CreateListingController', function ($scope, $state, client) {
     $scope.submit = function() {
         var listing = {
             title: $scope.title,
-            description: $scope.description
+            description: $scope.description,
+            askingPrice: $scope.askingPrice,
+            category: $scope.category,
+            images: []
         };
         
         var request = client.createListing(listing);
