@@ -115,7 +115,7 @@ app.factory('client', function($http, $q, model) {
 		return deferred.promise;
 	};
     
-    function createListing(item) {
+   function createListing(item) {
         var deferred = $q.defer();
 		
 		$http.post('/api/listings', item)

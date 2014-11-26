@@ -1,3 +1,5 @@
+<input type="search" class="form-control" placeholder="Search" ng-model="query">
+
 <div class="btn-group btn-group-justified">
 	<div class="btn-group">
 		<a class="btn btn-default" ng-click="predicate = 'askingPrice';" role="button"> $&#9660; </a>
@@ -7,7 +9,7 @@
 	</div>
 </div>
 
-<div ng-repeat="listing in listings | orderBy:predicate">
+<div ng-repeat="listing in listings | orderBy:predicate | filter:query">
 	<a class="col-xs-12" style="margin: 5px; background-color: #EEEEEE;" ui-sref="main.listing({id: listing.id})">
 		<div class="col-xs-4" style="display: inline-block;">
 		</div>
