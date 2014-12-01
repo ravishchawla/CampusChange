@@ -1,24 +1,33 @@
-<input type="search" class="form-control" placeholder="Search" ng-model="query">
+<div class="input-group margin-bottom-sm">
+  <span class="input-group-addon"><i class="fa fa-search fa-fw"></i></span>
+  <input type="search" class="form-control" placeholder="Search" ng-model="query">
+</div>
 
+<h1>All Items</h1>
 <div class="btn-group btn-group-justified">
 	<div class="btn-group">
-		<a class="btn btn-default" ng-click="predicate = 'askingPrice';" role="button"> $&#9660; </a>
+		<a class="btn btn-default" ng-click="predicate = 'askingPrice';" role="button"> <i class="fa fa-usd"></i>
+<i class="fa fa-chevron-down"></i>
+ </a>
 	</div>
 	<div class="btn-group">
-		<a class="btn btn-default" ng-click="predicate = '-askingPrice';" role="button"> $&#9650;</a>
+		<a class="btn btn-default" ng-click="predicate = '-askingPrice';" role="button"><i class="fa fa-usd"></i>
+<i class="fa fa-chevron-up"></i>
+	</a>
 	</div>
 </div>
 
 <div ng-repeat="listing in listings | orderBy:predicate | filter:query">
 	<a class="col-xs-12" style="margin: 5px; background-color: #EEEEEE;" ui-sref="main.listing({id: listing.id})">
-		<div class="col-xs-4" style="display: inline-block;">
+		<div class="col-xs-4" style="display: inline-block;"><i class="fa fa-gift fa-5x"></i>
+
 		</div>
 		<div class="col-xs-8">
 			<div style="font-weight: bold">{{listing.title}} - $ {{listing.askingPrice}}</div>
-            <div style="color: grey">By {{listing.owner}}<div>
-			<div>{{listing.description}}</div>
+            <div style="color: grey" class="list-body">By {{listing.owner}}<div>
+			<div class="list-body">{{listing.description}}</div>
 		</div>
 	</div>
 </div>
-	
+
 <div ui-view></div>

@@ -1,8 +1,19 @@
-<input ng-model="title" placeholder="Title" class="col-xs-12"></input>
-<input ng-model="askingPrice" placeholder="Asking Price" class="col-xs-12"></input>
-<input ng-model="category" placeholder="Category" class="col-xs-12"></input>
-<div>
-    Description
-    <textarea ng-model="description" class="col-xs-12"></textarea>
-</div>
-<button ng-click="submit()" class="btn btn-primary">Submit!</button>
+<form role="form">
+  <div class="form-group">
+    <label>Title</label>
+    <input ng-model="title" type="text" class="form-control" placeholder="Enter title">
+  </div>
+  <div class="form-group">
+    <label>Price</label>
+    <input ng-model="askingPrice" type="text" class="form-control" placeholder="Enter Price">
+  </div>
+  <div class="form-group">
+    <label>Category</label>
+    <input ng-model="category" type="text" class="form-control" placeholder="Enter Category">
+  </div>
+  <div class="form-group">
+    <label>Description</label>
+    <textarea ng-model="description" class="form-control" rows="3"></textarea>
+  </div>
+  <button ng-click="submit()" type="submit" class="btn btn-primary">Submit</button>
+</form>
