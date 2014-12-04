@@ -37,7 +37,7 @@ $ gulp debug
 Point browser to [http://localhost:8000](http://localhost:8000)
 
 #REST API Documentation
-
+```
 Format:
 {title}
 {HTTP METHOD} {endpoint}
@@ -232,5 +232,5 @@ X-SessionId: {token}
 	}
 ]
 
-
+```
 
