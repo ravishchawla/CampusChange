@@ -73,8 +73,6 @@ POST /api/auth
 (wrong password) 401
 
 
-Revoke authorization?
-
 User
 
 Insert user
@@ -193,7 +191,7 @@ images: [new images]*
 (invalid sessio id) 401
 (wrong listing id) 400
 
-any omitted fields remain the same?
+any omitted fields remain the same
 
 Delete a listing
 DELETE /api/listings/{listing_id}
